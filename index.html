@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Шаблоны МЭС</title>
+
+    <!-- bootstrap4 -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- bootstrap4 -->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(100518984, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/100518984" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<style type="text/css">
+  #bloknot {
+    width: 150px; position: fixed;
+    z-index: 999;
+    right: 0;
+    transition: cubic-bezier(.61,1.95,.26,.95) .5s;
+  }
+</style>
+  </head>
+  <body>
+
+<textarea class="form-control" rows="3" id="bloknot">
+</textarea>
+
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Корректировки
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+
+      <div class="container mt-3">
+
+<div class="alert alert-primary center" role="alert">
+<div class="input-group">
+    <span class="input-group-text">Не согласен с показаниями "Сети", Сетевой участок Россети МР; Дата сети
+  <input oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="sDate">; То
+  <input type="text" style="width: 60px" maxlength="6" id="sT0"> ; Т1 
+  <input type="text" style="width: 60px" maxlength="6" id="sT1"> ; Т2 
+  <input type="text" style="width: 60px" maxlength="6" id="sT2"> ; Т3
+  <input type="text" style="width: 60px" maxlength="6" id="sT3"> ;
+    </span><span class="input-group-text">Дата кл 
+  <input class="thisDate" oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="cDate">; То 
+  <input type="text" style="width: 60px" maxlength="6" id="cT0"> ; Т1 
+  <input type="text" style="width: 60px" maxlength="6" id="cT1"> ; Т2 
+  <input type="text" style="width: 60px" maxlength="6" id="cT2"> ; Т3 
+  <input type="text" style="width: 60px" maxlength="6" id="cT3"> ;
+    </span>
+</div>
+ <button type="button" class="btn btn-primary mt-2" onclick="fnCopy1()">Скопировать</button>
+</div>
+
+<div class="alert alert-primary center" role="alert">
+<div class="input-group">
+    <span class="input-group-text">Клиент ошибочно передал показания
+  <input oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="fDate">; То
+  <input type="text" style="width: 60px" maxlength="6" id="fT0"> ; Т1 
+  <input type="text" style="width: 60px" maxlength="6" id="fT1"> ; Т2 
+  <input type="text" style="width: 60px" maxlength="6" id="fT2"> ; Т3
+  <input type="text" style="width: 60px" maxlength="6" id="fT3"> ;
+    </span><span class="input-group-text">Корректировочные показания на 
+  <input oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="tDate">; То 
+  <input type="text" style="width: 60px" maxlength="6" id="tT0"> ; Т1 
+  <input type="text" style="width: 60px" maxlength="6" id="tT1"> ; Т2 
+  <input type="text" style="width: 60px" maxlength="6" id="tT2"> ; Т3 
+  <input type="text" style="width: 60px" maxlength="6" id="tT3"> ;
+    </span>
+</div>
+ <button type="button" class="btn btn-primary mt-2" onclick="fnCopy2()">Скопировать</button>
+</div>
+
+<div class="alert alert-primary center" role="alert">
+<div class="input-group">
+    <span class="input-group-text">
+  <input oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="f1Date"> клиент ошибочно передал показания То-
+  <input type="text" style="width: 60px" maxlength="6" id="f1T0">, Т1-
+  <input type="text" style="width: 60px" maxlength="6" id="f1T1">, Т2-
+  <input type="text" style="width: 60px" maxlength="6" id="f1T2">, Т3-
+  <input type="text" style="width: 60px" maxlength="6" id="f1T3">, данные показания необходимо удалить.
+    </span><span class="input-group-text">Корректные показания на 
+  <input class="thisDate" oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="t1Date"> То-
+  <input type="text" style="width: 60px" maxlength="6" id="t1T0">, Т1- 
+  <input type="text" style="width: 60px" maxlength="6" id="t1T1">, Т2- 
+  <input type="text" style="width: 60px" maxlength="6" id="t1T2">, Т3- 
+  <input type="text" style="width: 60px" maxlength="6" id="t1T3">
+    </span>
+</div>
+ <button type="button" class="btn btn-primary mt-2" onclick="fnCopy3()">Скопировать</button>
+</div>
+
+<div class="alert alert-primary center" role="alert">
+  <h5>Расчет new</h5>
+   <div class="input-group">
+    <span class="input-group-text">
+  Показания на начало периода &nbsp;
+  <input type="text" style="width: 90px" id="nrDate1" placeholder="Дата">, Т1-
+  <input type="text" style="width: 60px" id="nrT1">, Т2-
+  <input type="text" style="width: 60px" id="nrT2">, Т3-
+  <input type="text" style="width: 60px" id="nrT3">
+    </span><span class="input-group-text">Текущие показания &nbsp;
+  <input type="text" style="width: 90px" id="nrDate2" placeholder="Дата">, Т1-
+  <input type="text" style="width: 60px" id="nr1T1">, Т2-
+  <input type="text" style="width: 60px" id="nr1T2">, Т3-
+  <input type="text" style="width: 60px" id="nr1T3">
+    </span><span class="input-group-text">Дата показаний, которые нужно корректировать &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+    </span>
+</div>
+ <button type="button" class="btn btn-primary mt-2" onclick="nr()">Рассчитать</button>
+</div>
+
+</div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Жалоба на сроки доставки ПД
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+<div class="container-fluid">
+  
+<table class="table table-striped">
+  <thead>
+  </thead>
+  <tbody>
+<script type="text/javascript">
+  const month_1 = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+  const d = new Date();
+  if (d.getMonth() == 0) {var name = month_1[d.getMonth()+11]} else {var name = month_1[d.getMonth()-1]}
+    document.write(`
+    <tr>
+      <td scope="row">Клиент не получил квитанцию за ${name} (месяц). В ЛС адрес клиента указан верно (сотрудник должен сверить адрес доставки ПД);</td>
+    </tr>
+    <tr>
+      <td scope="row">Клиент не получил квитанцию за ${name} (месяц). В ЛС адрес клиента указан верно. Со слов клиента квитанции за ${name} (месяц) не получил весь дом.</td>
+    </tr>
+    <tr>
+      <td scope="row">Клиент не получил квитанцию за ${name} (месяц). Альтернативный адрес сверен.</td>
+    </tr>
+    <tr>
+      <td scope="row">Клиент не получил квитанцию за ${name} (месяц). В ЛС адрес клиента указан верно. Квитанции разбросаны по всей улице (дому).</td>
+    </tr>
+      `)
+</script>
+  </tbody>
+</table>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Заявка на изменение реквизитов
+        </button>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+      <div class="card-body">
+
+<div class="alert alert-primary center" role="alert">
+<div class="input-group">
+    <span class="input-group-text">Клиенту поступают звонки/смс/ E-mail на телефон 
+    <input type="text" style="width: 60px" id="phone_1"> /на E-mail 
+    <input type="text" style="width: 60px" id="mail_1">  о задолженности по ЛС
+    <input type="text" style="width: 60px" id="ls_1" onchange="ls_11.value = this.value"> . Клиент не имеет отношение к ЛС 
+    <input type="text" style="width: 60px" id="ls_11" disabled> . 
+    </span><span class="input-group-text">Дата информирования 
+    <input type="date" id="date_1"/>. Автообзвон/ E-mail информирование/Росдолг, ручной обзвон/смс-оповещение.
+    </span>
+</div>
+ <button type="button" class="btn btn-primary mt-2" onclick="rekviz1()">Скопировать</button>
+</div>
+
+<div class="alert alert-primary center" role="alert">
+<div class="input-group">
+    <span class="input-group-text">Клиенту на E-mail 
+    <input type="text" style="width: 60px" id="mail_2" onchange="mail_22.value = this.value"> поступила электронная квитанция по ЛС 
+    <input type="text" style="width: 60px" id="ls_2"> . Клиент отказывается от получения эл. счетов. Адрес электронной почты 
+    <input type="text" style="width: 60px" id="mail_22" disabled> необходимо удалить из биллинга
+    </span>
+</div>
+ <button type="button" class="btn btn-primary mt-2" onclick="rekviz2()">Скопировать</button>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt-3">
+<button type="button" class="btn btn-secondary" onclick="send_mail('MKD')">Восстановление МКД</button>
+<button type="button" class="btn btn-success" onclick="send_mail('IGD_asumb')">Восстановление ИЖД АСУМБ</button>
+<button type="button" class="btn btn-warning" onclick="send_mail('IGD')">Восстановление ИЖД</button><br>
+<button type="button" class="btn btn-primary mt-2" onclick="send_mail('PD')">Квитанция во вложении</button>
+</div>
+
+  </body>
+  <script type="text/javascript">
+
+    //Корректировка
+    function fnCopy1() {
+       navigator.clipboard.writeText(`Не согласен с показаниями "Сети",  Сетевой участок Россети МР; Дата сети ${sDate.value}; То ${sT0.value} ; Т1 ${sT1.value} ; Т2 ${sT2.value} ; Т3 ${sT3.value} ; Дата кл ${cDate.value}; То ${cT0.value} ; Т1 ${cT1.value} ; Т2 ${cT2.value} ; Т3 ${cT3.value} ;`)
+    }
+    function fnCopy2() {
+      if (fT3.value == '' && fT0.value== '') {
+       navigator.clipboard.writeText(`Клиент ошибочно передал показания ${fDate.value} Т1 ${fT1.value} ; Т2 ${fT2.value} ; Корректировочные показания на ${tDate.value} Т1 ${tT1.value} ; Т2 ${tT2.value} ;`)
+      }
+     else if (fT0.value == '') {
+       navigator.clipboard.writeText(`Клиент ошибочно передал показания ${fDate.value} Т1 ${fT1.value} ; Т2 ${fT2.value} ; Т3 ${fT3.value} ; Корректировочные показания на ${tDate.value} Т1 ${tT1.value} ; Т2 ${tT2.value} ; Т3 ${tT3.value} ;`)
+     }
+      else {
+       navigator.clipboard.writeText(`Клиент ошибочно передал показания ${fDate.value} То ${fT0.value} ; Корректировочные показания на ${tDate.value} То ${tT0.value} ;`)
+      }
+    }
+    function fnCopy3() {
+      if (f1T3.value == '' && f1T0.value== '') {
+       navigator.clipboard.writeText(`${f1Date.value} клиент ошибочно передал показания Т1-${f1T1.value}, Т2-${f1T2.value}, данные показания необходимо удалить. Корректные показания на ${t1Date.value}, Т1-${t1T1.value}, Т2-${t1T2.value}.`)
+      }
+     else if (f1T0.value == '') {
+       navigator.clipboard.writeText(`${f1Date.value} клиент ошибочно передал показания Т1-${f1T1.value}, Т2-${f1T2.value}, Т3-${f1T3.value}, данные показания необходимо удалить. Корректные показания на ${t1Date.value}, Т1-${t1T1.value}, Т2-${t1T2.value}, Т3-${t1T3.value}.`)
+     }
+      else {
+       navigator.clipboard.writeText(`${f1Date.value} клиент ошибочно передал показания То-${f1T0.value}, данные показания необходимо удалить. Корректные показания на ${t1Date.value}, То-${t1T0.value}.`)
+      }
+    }
+    //Корректировка
+
+
+
+
+    //Изменение реквизитов
+    function rekviz1() {
+      if (phone_1.value == '') {
+        navigator.clipboard.writeText(`Клиенту поступают E-mail на E-mail ${mail_1.value}  о задолженности по ЛС ${ls_1.value}. Клиент не имеет отношение к ЛС ${ls_1.value}. Дата информирования ${date_1.value}. E-mail информирование.`)
+      } 
+        else if (mail_1.value == '') {
+         navigator.clipboard.writeText(`Клиенту поступают звонки/смс на телефон ${phone_1.value} о задолженности по ЛС ${ls_1.value}. Клиент не имеет отношение к ЛС ${ls_1.value}. Дата информирования ${date_1.value}. Автообзвон/Росдолг, ручной обзвон/смс-оповещение.`)
+        }
+          else {
+           navigator.clipboard.writeText(`Клиенту поступают звонки/смс/ E-mail на телефон ${phone_1.value} /на E-mail ${mail_1.value}  о задолженности по ЛС ${ls_1.value} . Клиент не имеет отношение к ЛС ${ls_1.value} . Дата информирования ${date_1.value} . Автообзвон/ E-mail информирование/Росдолг, ручной обзвон/смс-оповещение.`)
+          }
+    }
+
+    function rekviz2() {
+      navigator.clipboard.writeText(`Клиенту на E-mail ${mail_2.value} поступила электронная квитанция по ЛС ${ls_2.value} . Клиент отказывается от получения эл. счетов. Адрес электронной почты ${mail_22.value} необходимо удалить из биллинга`)
+    }
+    //Изменение реквизитов
+
+    //Письма
+    var send_mail_arr = {
+      MKD : `Уважаемый клиент!
+Заявка на возобновление подачи электроэнергии по вашему адресу сформирована.
+Для возобновлению подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
+
+Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 843-*********-*-** ( указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
+      
+ВНИМАНИЕ!
+Оплата производится строго на номер счета указанный в приложенной квитанции № С – 843-*********-*-**
+Оплата произведенная по ЛС электроэнергии не учитывается в счет оплаты услуги по введению ограничения/приостановлению и возобновлению подачи электроэнергии.
+
+После оплаты квитанции счета Вам необходимо направить на электронный адрес vkl-MKD@mosenergosbyt.ru  следующую информацию:
+1. Копию квитанции об оплате счета, направленного в Ваш адрес.
+2. Адрес, по которому оформлена заявка.
+
+Внимание! АО «Мосэнергосбыт» не имеет возможности получать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
+
+Почтовый ящик vkl-MKD@mosenergosbyt.ru  предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
+      IGD_asumb : `Уважаемый клиент,
+Заявка на возобновление подачи электроэнергии по вашему адресу сформирована!
+Для возобновлению подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
+Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 843-*********-*-** ( указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
+
+ВНИМАНИЕ!
+Оплата производится строго на номер счета указанный в приложенной квитанции № С – 843-*********-*-**
+Оплата произведенная по ЛС электроэнергии не учитывается в счет оплаты услуги по введению ограничения/приостановлению и возобновлению подачи электроэнергии.
+
+Для подтверждения оплаты счета Вам необходимо направить на электронный адрес vkl-IGD@mosenergosbyt.ru следующую информацию:
+1. Копию квитанции об оплате счета, направленного в Ваш адрес.
+2. Адрес, по которому оформлена заявка.
+
+Внимание! АО «Мосэнергосбыт» не имеет возможности получать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
+
+Обращаем Ваше внимание, что адрес электронной почты vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
+      IGD : `Уважаемый клиент,
+Заявка на возобновление подачи электроэнергии по вашему адресу сформирована!
+Для возобновлению подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
+Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 842-*********-*-** ( указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
+
+ВНИМАНИЕ!
+Оплата производится строго на номер счета указанный в приложенной квитанции № С – 842-*********-*-**
+Оплата произведенная по ЛС электроэнергии не учитывается в счет оплаты услуги по введению ограничения/приостановлению и возобновлению подачи электроэнергии.
+
+Для подтверждения оплаты счета Вам необходимо направить на электронный адрес vkl-IGD@mosenergosbyt.ru следующую информацию:
+1. Копию квитанции об оплате счета, направленного в Ваш адрес.
+2. Адрес, по которому оформлена заявка.
+
+Внимание! АО «Мосэнергосбыт» не имеет возможности получать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
+
+Почтовый ящик vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
+      PD : `Уважаемый клиент!
+Во вложении квитанция по ЛС ххххх.
+Благодарим за обращение в АО «Мосэнергосбыт».`
+    }
+    function send_mail(arg) {
+      navigator.clipboard.writeText(send_mail_arr[arg])
+    }
+    //Письма
+
+        // Получаем текущую дату
+        const currentDate = new Date();
+
+        // Форматируем день и месяц с ведущими нулями
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+
+        // Форматируем дату в "дд.мм.гггг"
+        const formattedDate = `${day}.${month}.${currentDate.getFullYear()}`;
+        $('.thisDate').attr('value', formattedDate)
+    function formatDate(input) {
+        let value = input.value.replace(/\D/g, ''); // Удаляем все символы, кроме цифр
+        if (value.length > 2) value = value.slice(0, 2) + '.' + value.slice(2); // Вставляем первую точку
+        if (value.length > 5) value = value.slice(0, 5) + '.' + value.slice(5); // Вставляем вторую точку
+        input.value = value;
+    }
+
+    // Расчет new
+function nr() {
+    bloknot.value = ''
+    const d1 = new Date(nrDate1.value.slice(6), nrDate1.value.slice(3, 5), nrDate1.value.slice(0, 2));
+    const d2 = new Date(nrDate2.value.slice(6), nrDate2.value.slice(3, 5), nrDate2.value.slice(0, 2));
+    const diffInMs = Math.abs(d2 - d1);
+    const msInDay = 1000 * 60 * 60 * 24;
+    const dp = Math.floor(diffInMs / msInDay);
+    const drT1 = (nr1T1.value - nrT1.value) / dp
+    const drT2 = (nr1T2.value - nrT2.value) / dp
+    const drT3 = (nr1T3.value - nrT3.value) / dp
+    $('.nrItog').each( function () {
+      const d3 = $(this).val()
+      if (d3 != '') {
+      const CurDate = new Date(d3.slice(6), d3.slice(3, 5), d3.slice(0, 2));
+      const diffInMs1 = Math.abs(CurDate - d1);
+      const dp1 = Math.floor(diffInMs1 / msInDay)
+      console.log(drT1) //для отладки
+      console.log(dp1) //для отладки
+      const itogT1 = Math.floor(drT1 * dp1 + Number(nrT1.value))
+      const itogT2 = Math.floor(drT2 * dp1 + Number(nrT2.value))
+      const itogT3 = Math.floor(drT3 * dp1 + Number(nrT3.value))
+      if (itogT2 == '') {
+       bloknot.value += `Клиент ошибочно передал показания ${d3} То xxxx ; Корректировочные показания на ${d3} То ${itogT1} ;
+`
+      }
+     else if (itogT3 == '') {
+       bloknot.value += `Клиент ошибочно передал показания ${d3} Т1 xxxx ; Т2 xxxx ; Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ;
+`
+     }
+      else {
+       bloknot.value += `Клиент ошибочно передал показания ${d3} Т1 xxxx ; Т2 xxxx ; Т3 xxxx ; Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ; Т3 ${itogT3} ;
+`
+      }
+      $('#bloknot').attr('style', 'width: 1000px; height: 250px')
+      }
+    })
+}
+    // Расчет new
+
+  </script>
+
+</html>
