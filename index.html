@@ -217,6 +217,7 @@
 <button type="button" class="btn btn-success" onclick="send_mail('IGD_asumb')">Восстановление ИЖД АСУМБ</button>
 <button type="button" class="btn btn-warning" onclick="send_mail('IGD')">Восстановление ИЖД</button><br>
 <button type="button" class="btn btn-primary mt-2" onclick="send_mail('PD')">Квитанция во вложении</button>
+<button type="button" class="btn btn-primary mt-2" onclick="send_mail('AKT')">Акт сверки во вложении</button>
 </div>
 
   </body>
@@ -324,6 +325,11 @@
 Почтовый ящик vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
       PD : `Уважаемый клиент!
 Во вложении квитанция по ЛС ххххх.
+Благодарим за обращение в АО «Мосэнергосбыт».`
+    }
+	      AKT : `Уважаемый клиент!
+Во вложении акт сверки по ЛС ххххх за период с ХХ по ХХ включительно. 
+Документ во вложении. 
 Благодарим за обращение в АО «Мосэнергосбыт».`
     }
     function send_mail(arg) {
