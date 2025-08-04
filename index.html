@@ -264,9 +264,9 @@
                   </div>
                 </div>
 
-                <div class="form-group mt-3" id="complaintDateGroup">
+               <div class="form-group mt-3" id="complaintDateGroup" style="display: none;">
                   <label for="complaintDate">Дата оплаты:</label>
-                  <input type="date" class="form-control" id="complaintDate">
+                  <input type="date" class="form-control" id="complaintDate" onchange="syncPaymentDate(this.value)">
                 </div>
 
                 <div class="form-group">
@@ -278,9 +278,8 @@
                   <label for="complaintEmail">Электронная почта:</label>
                   <input type="email" class="form-control" id="complaintEmail" placeholder="Email">
                 </div>
-
                 <div class="form-group" id="paymentDateGroup" style="display: none;">
-                  <label for="paymentDate">Направили чек:</label>
+                  <label for="paymentDate">Дата отправки чека:</label>
                   <input type="date" class="form-control" id="paymentDate">
                 </div>
 
@@ -553,6 +552,10 @@
         $('#complaintDate').val(today);
       });
 
+function syncPaymentDate(date) {
+        $('#paymentDate').val(date);
+      }
+	  
       let selectedComplaintType = '';
       let selectedConfirmationType = '';
 
@@ -584,9 +587,15 @@
         if (type === 'Подтвердил через почту') {
           $('#emailGroup').show();
           $('#paymentDateGroup').show();
+          $('#confirmationDateGroup').hide();
+          // Синхронизируем даты при первом открытии
+          if ($('#complaintDate').val()) {
+            $('#paymentDate').val($('#complaintDate').val());
+          }
         } else {
           $('#emailGroup').hide();
           $('#paymentDateGroup').hide();
+          $('#confirmationDateGroup').show();
         }
       }
 
