@@ -54,6 +54,8 @@
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
           <div class="container mt-3">
+		  
+		 
 
 <div class="alert alert-primary center" role="alert">
 <div class="input-group">
@@ -228,6 +230,117 @@
   </div>
 </div>
 
+  <!-- Новая вкладка "Жалоба на отключение ЭЭ" -->
+      <div class="card">
+        <div class="card-header" id="headingFour">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              Жалоба на отключение ЭЭ
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+          <div class="card-body">
+            <div class="container mt-3">
+              <div class="alert alert-primary center" role="alert">
+                <div class="form-group">
+                  <label>Тип жалобы:</label>
+                  <div class="btn-group w-100">
+                    <button type="button" class="btn btn-outline-primary" onclick="selectComplaintType('Ошибочное отключение')">Ошибочное отключение</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="selectComplaintType('Нарушен срок возобновления')">Нарушен срок возобновления</button>
+                  </div>
+                </div>
+
+                <div class="form-group mt-3" id="selectedTheme" style="display: none;">
+                  <label>Тема письма:</label>
+                  <span id="themeText" class="text-template" onclick="copyThemeText()"></span>
+                </div>
+
+                <div class="form-group mt-3" id="confirmationTypeGroup" style="display: none;">
+                  <label>Подтверждение:</label>
+                  <div class="btn-group w-100">
+                    <button type="button" class="btn btn-outline-secondary" onclick="selectConfirmationType('Подтвердил через почту')">Подтвердил через почту</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="selectConfirmationType('Подтверждено в КО')">Подтверждено в КО</button>
+                  </div>
+                </div>
+
+                <div class="form-group mt-3" id="complaintDateGroup">
+                  <label for="complaintDate">Дата оплаты:</label>
+                  <input type="date" class="form-control" id="complaintDate">
+                </div>
+
+                <div class="form-group">
+                  <label for="complaintPhone">Телефон для связи:</label>
+                  <input type="text" class="form-control" id="complaintPhone" placeholder="Номер телефона">
+                </div>
+
+                <div class="form-group" id="emailGroup" style="display: none;">
+                  <label for="complaintEmail">Электронная почта:</label>
+                  <input type="email" class="form-control" id="complaintEmail" placeholder="Email">
+                </div>
+
+                <div class="form-group" id="paymentDateGroup" style="display: none;">
+                  <label for="paymentDate">Направили чек:</label>
+                  <input type="date" class="form-control" id="paymentDate">
+                </div>
+
+                <button type="button" class="btn btn-primary mt-2" onclick="copyComplaint()">Скопировать</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	 <!-- Новая вкладка "Жалоба на сроки заключения договора" -->
+      <div class="card">
+        <div class="card-header" id="headingFive">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+              Жалоба на сроки заключения договора
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+          <div class="card-body">
+            <div class="container mt-3">
+              <div class="alert alert-primary center" role="alert">
+                <div class="form-group">
+                  <label>Тип подачи:</label>
+                  <div class="btn-group w-100">
+                    <button type="button" class="btn btn-outline-primary" onclick="selectContractType('Подача в ЛКК')">Подача в ЛКК</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="selectContractType('Подача в КО')">Подача в КО</button>
+                  </div>
+                </div>
+
+                <div class="form-group mt-3">
+                  <label for="contractDate">Дата обращения:</label>
+                  <input type="date" class="form-control" id="contractDate">
+                </div>
+
+                <div class="form-group" id="requestNumberGroup" style="display: none;">
+                  <label for="requestNumber">Номер заявки:</label>
+                  <input type="text" class="form-control" id="requestNumber" placeholder="Номер заявки" maxlength="20">
+                </div>
+
+                <div class="form-group">
+                  <label for="clientNumber">Номер клиента:</label>
+                  <input type="text" class="form-control" id="clientNumber" placeholder="Номер клиента" maxlength="15">
+                </div>
+
+                <div class="form-group" id="officeAddressGroup" style="display: none;">
+                  <label for="officeAddress">Адрес/название КО:</label>
+                  <input type="text" class="form-control" id="officeAddress" placeholder="Адрес или название КО">
+                </div>
+
+                <button type="button" class="btn btn-primary mt-2" onclick="copyContractComplaint()">Скопировать</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	
  <div class="container-fluid mt-3">
       <div class="d-flex align-items-center mb-2">
         <span class="mr-2">Темы писем:</span>
@@ -388,17 +501,141 @@
         input.value = value;
     }
 	
-	 function copyTemplate(index) {
-        const templates = send_mail_arr['TextTemplates'].split(' | ');
-        if (index >= 0 && index < templates.length) {
-          navigator.clipboard.writeText(templates[index]);
-          // Визуальная обратная связь
-          const elements = document.querySelectorAll('.text-template');
-          elements[index].style.fontWeight = 'bold';
-          setTimeout(() => {
-            elements[index].style.fontWeight = 'normal';
-          }, 500);
+	  // Новые функции для обработки жалоб на сроки заключения договора
+      $(document).ready(function() {
+        // Установка даты по умолчанию (1 месяц назад)
+        const today = new Date();
+        const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1)).toISOString().split('T')[0];
+        $('#contractDate').val(oneMonthAgo);
+      });
+
+      let selectedContractType = '';
+
+      function selectContractType(type) {
+        selectedContractType = type;
+        
+        if (type === 'Подача в ЛКК') {
+          $('#requestNumberGroup').show();
+          $('#officeAddressGroup').hide();
+        } else {
+          $('#requestNumberGroup').hide();
+          $('#officeAddressGroup').show();
         }
+      }
+
+      function copyContractComplaint() {
+        const date = formatDateForDisplay($('#contractDate').val());
+        const clientNumber = $('#clientNumber').val();
+        let text = '';
+        
+        if (selectedContractType === 'Подача в ЛКК') {
+          const requestNumber = $('#requestNumber').val();
+          text = `${date} через ЛКК оформлена услуга Оформление заявки на заключение договора с физ. лицом № ${requestNumber}. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
+        } else {
+          const officeAddress = $('#officeAddress').val();
+          text = `${date} в КО ${officeAddress} клиент подавал заявку на заключение договора. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
+        }
+        
+        navigator.clipboard.writeText(text);
+        
+        // Визуальная обратная связь
+        const button = $('button[onclick="copyContractComplaint()"]');
+        button.text('Скопировано!');
+        setTimeout(() => {
+          button.text('Скопировать');
+        }, 2000);
+      }
+	
+	    // Новые функции для обработки жалоб на отключение
+      $(document).ready(function() {
+        // Установка сегодняшней даты по умолчанию
+        const today = new Date().toISOString().split('T')[0];
+        $('#complaintDate').val(today);
+      });
+
+      let selectedComplaintType = '';
+      let selectedConfirmationType = '';
+
+      function selectComplaintType(type) {
+        selectedComplaintType = type;
+        $('#themeText').text(type);
+        $('#selectedTheme').show();
+        
+        if (type === 'Ошибочное отключение') {
+          $('#confirmationTypeGroup').hide();
+          $('#emailGroup').hide();
+          $('#paymentDateGroup').hide();
+          $('#complaintDateGroup').hide(); // Скрываем дату для ошибочного отключения
+        } else {
+          $('#confirmationTypeGroup').show();
+          $('#complaintDateGroup').show(); // Показываем дату для нарушения сроков
+        }
+        
+        // Сброс выбора подтверждения при смене типа жалобы
+        selectedConfirmationType = '';
+        $('button[onclick^="selectConfirmationType"]').removeClass('active');
+      }
+
+      function selectConfirmationType(type) {
+        selectedConfirmationType = type;
+        $('button[onclick^="selectConfirmationType"]').removeClass('active');
+        $(`button[onclick="selectConfirmationType('${type}')"]`).addClass('active');
+        
+        if (type === 'Подтвердил через почту') {
+          $('#emailGroup').show();
+          $('#paymentDateGroup').show();
+        } else {
+          $('#emailGroup').hide();
+          $('#paymentDateGroup').hide();
+        }
+      }
+
+      function copyThemeText() {
+        navigator.clipboard.writeText(selectedComplaintType);
+        
+        // Визуальная обратная связь
+        const themeElement = $('#themeText');
+        themeElement.css('font-weight', 'bold');
+        setTimeout(() => {
+          themeElement.css('font-weight', 'normal');
+        }, 500);
+      }
+
+      function formatDateForDisplay(dateString) {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+      }
+
+      function copyComplaint() {
+        const phone = $('#complaintPhone').val();
+        let text = '';
+        
+        if (selectedComplaintType === 'Ошибочное отключение') {
+          text = `Со слов клиента, отключили э/э. Задолженности - нет, в графике на ограничение ЛС нет. Тел. для связи ${phone}`;
+        } else {
+          const complaintDate = formatDateForDisplay($('#complaintDate').val());
+          
+          if (selectedConfirmationType === 'Подтверждено в КО') {
+            text = `э/э оплачена ${complaintDate}, подтверждение оплаты было в КО, тел. для связи ${phone}`;
+          } else {
+            const paymentDate = formatDateForDisplay($('#paymentDate').val());
+            const email = $('#complaintEmail').val();
+            text = `э/э оплачена ${complaintDate}, направлен чек ${paymentDate} с эл. почты ${email}, тел. для связи ${phone}`;
+          }
+        }
+        
+        navigator.clipboard.writeText(text);
+        
+        // Визуальная обратная связь
+        const button = $('button[onclick="copyComplaint()"]');
+        button.text('Скопировано!');
+        setTimeout(() => {
+          button.text('Скопировать');
+        }, 2000);
       }
 
     // Расчет new
