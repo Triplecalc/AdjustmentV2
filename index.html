@@ -12,32 +12,48 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- bootstrap4 -->
 
-<style type="text/css">
-  #bloknot {
-    width: 150px; position: fixed;
-    z-index: 999;
-    right: 0;
-    transition: cubic-bezier(.61,1.95,.26,.95) .5s;
-  }
-</style>
+ <style type="text/css">
+      #bloknot {
+        width: 150px; position: fixed;
+        z-index: 999;
+        right: 0;
+        transition: cubic-bezier(.61,1.95,.26,.95) .5s;
+      }
+      .text-template {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+      }
+      .text-template:hover {
+        color: #0056b3;
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
+  
+  <!--<style>
+  body {
+    background-image: url('https://krasnogorsk-adm.ru/netcat_files/3/1/Mosenergosbyt.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
+-->
 
-<textarea class="form-control" rows="3" id="bloknot">
-</textarea>
+<textarea class="form-control" rows="3" id="bloknot"></textarea>
 
-<div id="accordion">
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Корректировки
-        </button>
-      </h5>
-    </div>
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-
-      <div class="container mt-3">
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Корректировки
+            </button>
+          </h5>
+        </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="container mt-3">
 
 <div class="alert alert-primary center" role="alert">
 <div class="input-group">
@@ -212,15 +228,22 @@
   </div>
 </div>
 
-<div class=" container-fluid mt-3">
-<button type="button" class="btn btn-secondary" onclick="send_mail('MKD')">Восстановление МКД</button>
-<button type="button" class="btn btn-success" onclick="send_mail('IGD_asumb')">Восстановление ИЖД АСУМБ</button>
-<button type="button" class="btn btn-warning" onclick="send_mail('IGD')">Восстановление ИЖД</button><br>
-<button type="button" class="btn btn-primary mt-2" onclick="send_mail('PD')">Квитанция во вложении</button>
-</div>
+ <div class="container-fluid mt-3">
+      <div class="d-flex align-items-center mb-2">
+        <span class="mr-2">Темы писем:</span>
+        <span class="text-template mr-2" onclick="copyTemplate(0)">Восстановление электроэнергии</span> |
+        <span class="text-template mr-2 ml-2" onclick="copyTemplate(1)">Квитанция АО Мосэнергосбыт</span> |
+        <span class="text-template ml-2" onclick="copyTemplate(2)">Акт сверки АО Мосэнергосбыт</span>
+      </div>
+      
+      <button type="button" class="btn btn-secondary" onclick="send_mail('MKD')">Восстановление МКД</button>
+      <button type="button" class="btn btn-success" onclick="send_mail('IGD_asumb')">Восстановление ИЖД АСУМБ</button>
+      <button type="button" class="btn btn-warning" onclick="send_mail('IGD')">Восстановление ИЖД</button><br>
+      <button type="button" class="btn btn-primary mt-2" onclick="send_mail('PD')">Квитанция во вложении</button>
+      <button type="button" class="btn btn-info mt-2" onclick="send_mail('Akt')">Акт сверки во вложении</button>
+    </div>
 
-  </body>
-  <script type="text/javascript">
+    <script type="text/javascript">
 
     //Корректировка
     function fnCopy1() {
@@ -272,12 +295,10 @@
     //Изменение реквизитов
 
     //Письма
-    var send_mail_arr = {
+   var send_mail_arr = {
       MKD : `Уважаемый клиент!
 Заявка на возобновление подачи электроэнергии по вашему адресу сформирована.
 Для возобновления подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
-
-Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 843-*********-*-** ( указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
       
 ВНИМАНИЕ!
 Оплата производится строго на номер счета указанный в приложенной квитанции № С – 843-*********-*-**
@@ -287,7 +308,7 @@
 1. Копию квитанции об оплате счета, направленного в Ваш адрес.
 2. Адрес, по которому оформлена заявка.
 
-Внимание! АО «Мосэнергосбыт» не имеет возможности получать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
+Внимание! АО «Мосэнергосбыт» не имеет возможности получавать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
 
 Почтовый ящик vkl-MKD@mosenergosbyt.ru  предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
       IGD_asumb : `Уважаемый клиент,
@@ -303,7 +324,7 @@
 1. Копию квитанции об оплате счета, направленного в Ваш адрес.
 2. Адрес, по которому оформлена заявка.
 
-Внимание! АО «Мосэнергосбыт» не имеет возможности получать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
+Внимание! АО «Мосэнергосбыт» не имеет возможности получавать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
 
 Обращаем Ваше внимание, что адрес электронной почты vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
       IGD : `Уважаемый клиент,
@@ -319,17 +340,36 @@
 1. Копию квитанции об оплате счета, направленного в Ваш адрес.
 2. Адрес, по которому оформлена заявка.
 
-Внимание! АО «Мосэнергосбыт» не имеет возможности получать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
+Внимание! АО «Мосэнергосбыт» не имеет возможности получавать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
 
 Почтовый ящик vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
-      PD : `Уважаемый клиент!
-Во вложении квитанция по ЛС ххххх.
-Благодарим за обращение в АО «Мосэнергосбыт».`
+      PD : `Добрый день!
+Уважаемый клиент, во вложении квитанция по ЛС ххххх.
+Благодарим за обращение в АО «Мосэнергосбыт».`,
+      Akt : `Добрый день!
+Уважаемый клиент, акт сверки по ЛС ххх за период с ХХ по ХХ во вложении. 
+Благодарим за обращение в АО «Мосэнергосбыт»`,
+      TextTemplates: `Восстановление электроэнергии | Квитанция АО Мосэнергосбыт | Акт сверки АО Мосэнергосбыт`
+    };
+
+    // Добавить новую функцию для копирования текста
+    function copyTemplate(index) {
+      const templates = send_mail_arr['TextTemplates'].split(' | ');
+      if (index >= 0 && index < templates.length) {
+        navigator.clipboard.writeText(templates[index]);
+        // Визуальная обратная связь
+        const elements = document.querySelectorAll('.text-template');
+        elements[index].style.fontWeight = 'bold';
+        setTimeout(() => {
+          elements[index].style.fontWeight = 'normal';
+        }, 500);
+      }
     }
+
     function send_mail(arg) {
       navigator.clipboard.writeText(send_mail_arr[arg])
     }
-    //Письма
+	//Письма
 
         // Получаем текущую дату
         const currentDate = new Date();
@@ -347,6 +387,19 @@
         if (value.length > 5) value = value.slice(0, 5) + '.' + value.slice(5); // Вставляем вторую точку
         input.value = value;
     }
+	
+	 function copyTemplate(index) {
+        const templates = send_mail_arr['TextTemplates'].split(' | ');
+        if (index >= 0 && index < templates.length) {
+          navigator.clipboard.writeText(templates[index]);
+          // Визуальная обратная связь
+          const elements = document.querySelectorAll('.text-template');
+          elements[index].style.fontWeight = 'bold';
+          setTimeout(() => {
+            elements[index].style.fontWeight = 'normal';
+          }, 500);
+        }
+      }
 
     // Расчет new
 function nr() {
@@ -385,9 +438,23 @@ function nr() {
       $('#bloknot').attr('style', 'width: 1000px; height: 250px')
       }
     })
+	
+	// Новая функция для копирования текстовых шаблонов
+      function copyTemplate(index) {
+        const templates = send_mail_arr['TextTemplates'].split(' | ');
+        if (index >= 0 && index < templates.length) {
+          navigator.clipboard.writeText(templates[index]);
+          // Визуальная обратная связь
+          const elements = document.querySelectorAll('.text-template');
+          elements[index].style.fontWeight = 'bold';
+          setTimeout(() => {
+            elements[index].style.fontWeight = 'normal';
+          }, 500);
+        }
+      }
 }
     // Расчет new
 
   </script>
-
+  
 </html>
