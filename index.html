@@ -4,6 +4,206 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Шаблоны МЭС</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+.btn-link {
+            width: 100%;
+            text-align: left;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50 !important;
+            text-decoration: none !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+            border-left: 4px solid transparent;
+        }
+        
+        .btn-link:hover {
+            background-color: #e9ecef;
+            border-left: 4px solid #3498db;
+        }
+        
+        /* Исправленный стиль для paymentDateGroup */
+        #paymentDateGroup {
+            display: none;
+        }
+    </style>
+
+<!--Стиль тем письма-->
+
+<style>
+/* Центрирование всего блока */
+.email-templates-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Стиль для строки с темой писем */
+.template-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #495057;
+}
+
+/* Стиль для кнопок тем писем */
+.template-option {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border-radius: 16px;
+    background: #f8f9fa;
+    color: #212529;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
+.template-option:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.template-option.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Разделитель */
+.template-divider {
+    color: #adb5bd;
+    margin: 0 5px;
+}
+
+/* Стиль для кнопок действий */
+.action-btn {
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 120px;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Цвета кнопок */
+.btn-mkd { background: #6c757d; color: white; }
+.btn-igd-asumb { background: #28a745; color: white; }
+.btn-igd { background: #fd7e14; color: white; }
+.btn-pd { background: #007bff; color: white; }
+.btn-akt { background: #17a2b8; color: white; }
+
+/* Контейнер для кнопок */
+.actions-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+</style>
+
+
+
+
+<!--Стиль кнопок-->
+
+<style>
+.action-btn {
+    position: relative;
+    padding: 15px 20px 15px 60px;
+    margin: 0 10px 15px 0;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Конкретные стили для каждой кнопки */
+.btn-mkd {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+}
+.btn-mkd::before {
+    content: '\f1ad';
+    background: rgba(0,0,0,0.1);
+}
+
+.btn-igd-asumb {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+}
+.btn-igd-asumb::before {
+    content: '\f015';
+    background: rgba(0,0,0,0.1);
+}
+
+.btn-igd {
+    background: linear-gradient(135deg, #fd7e14 0%, #e36209 100%);
+}
+.btn-igd::before {
+    content: '\f7b2';
+    background: rgba(0,0,0,0.1);
+}
+
+.btn-pd {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+.btn-pd::before {
+    content: '\f571';
+    background: rgba(0,0,0,0.1);
+}
+
+.btn-akt {
+    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+}
+.btn-akt::before {
+    content: '\f46c';
+    background: rgba(0,0,0,0.1);
+}
+
+.btn-badge {
+    display: block;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 3px;
+}
+</style>
+
 
     <!-- bootstrap4 -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -340,20 +540,25 @@
       </div>
     </div>
 	
- <div class="container-fluid mt-3">
-      <div class="d-flex align-items-center mb-2">
+<div class="container-fluid email-templates-container">
+    <div class="template-header">
         <span class="mr-2">Темы писем:</span>
-        <span class="text-template mr-2" onclick="copyTemplate(0)">Восстановление электроэнергии</span> |
-        <span class="text-template mr-2 ml-2" onclick="copyTemplate(1)">Квитанция АО Мосэнергосбыт</span> |
-        <span class="text-template ml-2" onclick="copyTemplate(2)">Акт сверки АО Мосэнергосбыт</span>
-      </div>
-      
-      <button type="button" class="btn btn-secondary" onclick="send_mail('MKD')">Восстановление МКД</button>
-      <button type="button" class="btn btn-success" onclick="send_mail('IGD_asumb')">Восстановление ИЖД АСУМБ</button>
-      <button type="button" class="btn btn-warning" onclick="send_mail('IGD')">Восстановление ИЖД</button><br>
-      <button type="button" class="btn btn-primary mt-2" onclick="send_mail('PD')">Квитанция во вложении</button>
-      <button type="button" class="btn btn-info mt-2" onclick="send_mail('Akt')">Акт сверки во вложении</button>
+        <span class="template-option" onclick="copyTemplate(0)">Восстановление электроэнергии</span>
+        <span class="template-divider">|</span>
+        <span class="template-option" onclick="copyTemplate(1)">Квитанция АО Мосэнергосбыт</span>
+        <span class="template-divider">|</span>
+        <span class="template-option" onclick="copyTemplate(2)">Акт сверки АО Мосэнергосбыт</span>
     </div>
+
+    <div class="actions-container">
+        <button type="button" class="action-btn btn-mkd" onclick="send_mail('MKD')">Восстановление МКД</button>
+        <button type="button" class="action-btn btn-igd-asumb" onclick="send_mail('IGD_asumb')">ИЖД АСУМБ</button>
+        <button type="button" class="action-btn btn-igd" onclick="send_mail('IGD')">Восстановление ИЖД</button>
+        <button type="button" class="action-btn btn-pd" onclick="send_mail('PD')">Квитанция</button>
+        <button type="button" class="action-btn btn-akt" onclick="send_mail('Akt')">Акт сверки</button>
+    </div>
+</div>
+      
 
     <script type="text/javascript">
 
@@ -483,169 +688,126 @@
     }
 	//Письма
 
-        // Получаем текущую дату
-        const currentDate = new Date();
 
-        // Форматируем день и месяц с ведущими нулями
-        const day = String(currentDate.getDate()).padStart(2, '0');
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+// Функции для вкладки "Жалоба на отключение ЭЭ"
+let selectedComplaintType = '';
+let selectedConfirmationType = '';
 
-        // Форматируем дату в "дд.мм.гггг"
-        const formattedDate = `${day}.${month}.${currentDate.getFullYear()}`;
-        $('.thisDate').attr('value', formattedDate)
-    function formatDate(input) {
-        let value = input.value.replace(/\D/g, ''); // Удаляем все символы, кроме цифр
-        if (value.length > 2) value = value.slice(0, 2) + '.' + value.slice(2); // Вставляем первую точку
-        if (value.length > 5) value = value.slice(0, 5) + '.' + value.slice(5); // Вставляем вторую точку
-        input.value = value;
+function selectComplaintType(type) {
+    selectedComplaintType = type;
+    document.getElementById('themeText').textContent = type;
+    document.getElementById('selectedTheme').style.display = 'block';
+    
+    if (type === 'Ошибочное отключение') {
+        document.getElementById('confirmationTypeGroup').style.display = 'none';
+        document.getElementById('emailGroup').style.display = 'none';
+        document.getElementById('paymentDateGroup').style.display = 'none';
+        document.getElementById('complaintDateGroup').style.display = 'none';
+    } else {
+        document.getElementById('confirmationTypeGroup').style.display = 'block';
+        document.getElementById('complaintDateGroup').style.display = 'block';
     }
-	
-	  // Новые функции для обработки жалоб на сроки заключения договора
-      $(document).ready(function() {
-        // Установка даты по умолчанию (1 месяц назад)
-        const today = new Date();
-        const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1)).toISOString().split('T')[0];
-        $('#contractDate').val(oneMonthAgo);
-      });
+    selectedConfirmationType = '';
+}
 
-      let selectedContractType = '';
+function selectConfirmationType(type) {
+    selectedConfirmationType = type;
+    document.querySelectorAll('#confirmationTypeGroup button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    if (type === 'Подтвердил через почту') {
+        document.getElementById('emailGroup').style.display = 'block';
+        document.getElementById('paymentDateGroup').style.display = 'block';
+    } else {
+        document.getElementById('emailGroup').style.display = 'none';
+        document.getElementById('paymentDateGroup').style.display = 'none';
+    }
+}
 
-      function selectContractType(type) {
-        selectedContractType = type;
+function copyComplaint() {
+    const phone = document.getElementById('complaintPhone').value;
+    let text = '';
+    
+    if (selectedComplaintType === 'Ошибочное отключение') {
+        text = `Со слов клиента, отключили э/э. Задолженности - нет, в графике на ограничение ЛС нет. Тел. для связи ${phone}`;
+    } else {
+        const complaintDate = formatDisplayDate(document.getElementById('complaintDate').value);
         
-        if (type === 'Подача в ЛКК') {
-          $('#requestNumberGroup').show();
-          $('#officeAddressGroup').hide();
-        } else {
-          $('#requestNumberGroup').hide();
-          $('#officeAddressGroup').show();
-        }
-      }
-
-      function copyContractComplaint() {
-        const date = formatDateForDisplay($('#contractDate').val());
-        const clientNumber = $('#clientNumber').val();
-        let text = '';
-        
-        if (selectedContractType === 'Подача в ЛКК') {
-          const requestNumber = $('#requestNumber').val();
-          text = `${date} через ЛКК оформлена услуга Оформление заявки на заключение договора с физ. лицом № ${requestNumber}. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
-        } else {
-          const officeAddress = $('#officeAddress').val();
-          text = `${date} в КО ${officeAddress} клиент подавал заявку на заключение договора. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
-        }
-        
-        navigator.clipboard.writeText(text);
-        
-        // Визуальная обратная связь
-        const button = $('button[onclick="copyContractComplaint()"]');
-        button.text('Скопировано!');
-        setTimeout(() => {
-          button.text('Скопировать');
-        }, 2000);
-      }
-	
-	    // Новые функции для обработки жалоб на отключение
-      $(document).ready(function() {
-        // Установка сегодняшней даты по умолчанию
-        const today = new Date().toISOString().split('T')[0];
-        $('#complaintDate').val(today);
-      });
-
-function syncPaymentDate(date) {
-        $('#paymentDate').val(date);
-      }
-	  
-      let selectedComplaintType = '';
-      let selectedConfirmationType = '';
-
-      function selectComplaintType(type) {
-        selectedComplaintType = type;
-        $('#themeText').text(type);
-        $('#selectedTheme').show();
-        
-        if (type === 'Ошибочное отключение') {
-          $('#confirmationTypeGroup').hide();
-          $('#emailGroup').hide();
-          $('#paymentDateGroup').hide();
-          $('#complaintDateGroup').hide(); // Скрываем дату для ошибочного отключения
-        } else {
-          $('#confirmationTypeGroup').show();
-          $('#complaintDateGroup').show(); // Показываем дату для нарушения сроков
-        }
-        
-        // Сброс выбора подтверждения при смене типа жалобы
-        selectedConfirmationType = '';
-        $('button[onclick^="selectConfirmationType"]').removeClass('active');
-      }
-
-      function selectConfirmationType(type) {
-        selectedConfirmationType = type;
-        $('button[onclick^="selectConfirmationType"]').removeClass('active');
-        $(`button[onclick="selectConfirmationType('${type}')"]`).addClass('active');
-        
-        if (type === 'Подтвердил через почту') {
-          $('#emailGroup').show();
-          $('#paymentDateGroup').show();
-          $('#confirmationDateGroup').hide();
-          // Синхронизируем даты при первом открытии
-          if ($('#complaintDate').val()) {
-            $('#paymentDate').val($('#complaintDate').val());
-          }
-        } else {
-          $('#emailGroup').hide();
-          $('#paymentDateGroup').hide();
-          $('#confirmationDateGroup').show();
-        }
-      }
-
-      function copyThemeText() {
-        navigator.clipboard.writeText(selectedComplaintType);
-        
-        // Визуальная обратная связь
-        const themeElement = $('#themeText');
-        themeElement.css('font-weight', 'bold');
-        setTimeout(() => {
-          themeElement.css('font-weight', 'normal');
-        }, 500);
-      }
-
-      function formatDateForDisplay(dateString) {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}.${month}.${year}`;
-      }
-
-      function copyComplaint() {
-        const phone = $('#complaintPhone').val();
-        let text = '';
-        
-        if (selectedComplaintType === 'Ошибочное отключение') {
-          text = `Со слов клиента, отключили э/э. Задолженности - нет, в графике на ограничение ЛС нет. Тел. для связи ${phone}`;
-        } else {
-          const complaintDate = formatDateForDisplay($('#complaintDate').val());
-          
-          if (selectedConfirmationType === 'Подтверждено в КО') {
+        if (selectedConfirmationType === 'Подтверждено в КО') {
             text = `э/э оплачена ${complaintDate}, подтверждение оплаты было в КО, тел. для связи ${phone}`;
-          } else {
-            const paymentDate = formatDateForDisplay($('#paymentDate').val());
-            const email = $('#complaintEmail').val();
+        } else {
+            const paymentDate = formatDisplayDate(document.getElementById('paymentDate').value);
+            const email = document.getElementById('complaintEmail').value;
             text = `э/э оплачена ${complaintDate}, направлен чек ${paymentDate} с эл. почты ${email}, тел. для связи ${phone}`;
-          }
         }
-        
-        navigator.clipboard.writeText(text);
-        
-        // Визуальная обратная связь
-        const button = $('button[onclick="copyComplaint()"]');
-        button.text('Скопировано!');
-        setTimeout(() => {
-          button.text('Скопировать');
-        }, 2000);
-      }
+    }
+    
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Текст скопирован в буфер обмена!');
+    });
+}
+
+// Функции для вкладки "Жалоба на сроки заключения договора"
+let selectedContractType = '';
+
+function selectContractType(type) {
+    selectedContractType = type;
+    if (type === 'Подача в ЛКК') {
+        document.getElementById('requestNumberGroup').style.display = 'block';
+        document.getElementById('officeAddressGroup').style.display = 'none';
+    } else {
+        document.getElementById('requestNumberGroup').style.display = 'none';
+        document.getElementById('officeAddressGroup').style.display = 'block';
+    }
+}
+
+function copyContractComplaint() {
+    const date = formatDisplayDate(document.getElementById('contractDate').value);
+    const clientNumber = document.getElementById('clientNumber').value;
+    let text = '';
+    
+    if (selectedContractType === 'Подача в ЛКК') {
+        const requestNumber = document.getElementById('requestNumber').value;
+        text = `${date} через ЛКК оформлена услуга Оформление заявки на заключение договора с физ. лицом № ${requestNumber}. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
+    } else {
+        const officeAddress = document.getElementById('officeAddress').value;
+        text = `${date} в КО ${officeAddress} клиент подавал заявку на заключение договора. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
+    }
+    
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Текст скопирован в буфер обмена!');
+    });
+}
+
+// Вспомогательная функция для форматирования даты
+function formatDisplayDate(dateString) {
+    if (!dateString) return '';
+    const parts = dateString.split('-');
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    // Установка дат по умолчанию
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('complaintDate').value = today;
+    document.getElementById('paymentDate').value = today;
+    
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+    document.getElementById('contractDate').value = oneMonthAgo.toISOString().split('T')[0];
+    
+    // Синхронизация дат оплаты
+    document.getElementById('complaintDate').addEventListener('change', function() {
+        document.getElementById('paymentDate').value = this.value;
+    });
+});
+
+// Остальные существующие функции (fnCopy1, fnCopy2, fnCopy3, rekviz1, rekviz2, send_mail и т.д.)
+// ... оставьте без изменений ...
+
 
     // Расчет new
 function nr() {
