@@ -695,8 +695,15 @@ let selectedConfirmationType = '';
 
 function selectComplaintType(type) {
     selectedComplaintType = type;
-    document.getElementById('themeText').textContent = type;
+    const themeText = document.getElementById('themeText');
+    themeText.textContent = type;
     document.getElementById('selectedTheme').style.display = 'block';
+    
+    // Сбрасываем подтверждение при смене типа жалобы
+    selectedConfirmationType = '';
+    document.querySelectorAll('#confirmationTypeGroup button').forEach(btn => {
+        btn.classList.remove('active');
+    });
     
     if (type === 'Ошибочное отключение') {
         document.getElementById('confirmationTypeGroup').style.display = 'none';
@@ -707,7 +714,21 @@ function selectComplaintType(type) {
         document.getElementById('confirmationTypeGroup').style.display = 'block';
         document.getElementById('complaintDateGroup').style.display = 'block';
     }
-    selectedConfirmationType = '';
+}
+
+// Новая функция для копирования темы письма
+function copyThemeText() {
+    const themeText = document.getElementById('themeText').textContent;
+    if (themeText) {
+        navigator.clipboard.writeText(themeText).then(() => {
+            // Визуальная обратная связь
+            const element = document.getElementById('themeText');
+            element.style.fontWeight = 'bold';
+            setTimeout(() => {
+                element.style.fontWeight = 'normal';
+            }, 500);
+        });
+    }
 }
 
 function selectConfirmationType(type) {
@@ -726,21 +747,44 @@ function selectConfirmationType(type) {
     }
 }
 
+function syncPaymentDate(dateValue) {
+    document.getElementById('paymentDate').value = dateValue;
+}
+
 function copyComplaint() {
     const phone = document.getElementById('complaintPhone').value;
     let text = '';
+    
+    if (!phone) {
+        alert('Пожалуйста, укажите телефон для связи');
+        return;
+    }
     
     if (selectedComplaintType === 'Ошибочное отключение') {
         text = `Со слов клиента, отключили э/э. Задолженности - нет, в графике на ограничение ЛС нет. Тел. для связи ${phone}`;
     } else {
         const complaintDate = formatDisplayDate(document.getElementById('complaintDate').value);
         
+        if (!complaintDate) {
+            alert('Пожалуйста, укажите дату оплаты');
+            return;
+        }
+        
         if (selectedConfirmationType === 'Подтверждено в КО') {
             text = `э/э оплачена ${complaintDate}, подтверждение оплаты было в КО, тел. для связи ${phone}`;
-        } else {
+        } else if (selectedConfirmationType === 'Подтвердил через почту') {
             const paymentDate = formatDisplayDate(document.getElementById('paymentDate').value);
             const email = document.getElementById('complaintEmail').value;
+            
+            if (!email) {
+                alert('Пожалуйста, укажите email');
+                return;
+            }
+            
             text = `э/э оплачена ${complaintDate}, направлен чек ${paymentDate} с эл. почты ${email}, тел. для связи ${phone}`;
+        } else {
+            alert('Пожалуйста, выберите тип подтверждения');
+            return;
         }
     }
     
@@ -748,6 +792,25 @@ function copyComplaint() {
         alert('Текст скопирован в буфер обмена!');
     });
 }
+
+// Вспомогательная функция для форматирования даты
+function formatDisplayDate(dateString) {
+    if (!dateString) return '';
+    const parts = dateString.split('-');
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    // Установка дат по умолчанию
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('complaintDate').value = today;
+    document.getElementById('paymentDate').value = today;
+    
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+    document.getElementById('contractDate').value = oneMonthAgo.toISOString().split('T')[0];
+});
 
 // Функции для вкладки "Жалоба на сроки заключения договора"
 let selectedContractType = '';
