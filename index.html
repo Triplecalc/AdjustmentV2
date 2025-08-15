@@ -546,6 +546,36 @@
       </div>
     </div>
 	
+	<!-- Оплата БК -->
+<div class="card">
+  <div class="card-header" id="headingSix">
+    <h5 class="mb-0">
+      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+        Оплата по БК
+      </button>
+    </h5>
+  </div>
+  <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+    <div class="card-body">
+      <div class="container mt-3">
+        <div class="alert alert-primary center" role="alert">
+          <div class="input-group">
+            <span class="input-group-text">ФИО (на русском):
+              <input type="text" style="width: 200px" id="bkName" placeholder="Введите ФИО" oninput="transliterateBKName()">
+            </span>
+            <span class="input-group-text" id="bkLatinGroup" style="display:none">
+              ФИО (на латинице): <span id="bkLatinName" class="font-weight-bold ml-1"></span>
+              <button type="button" class="btn btn-sm btn-outline-secondary ml-2" onclick="copyBKName()">
+                <i class="fas fa-copy"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+	
 <div class="container-fluid email-templates-container">
     <div class="template-header">
         <span class="mr-2">Темы писем:</span>
@@ -595,9 +625,85 @@
       }
     }
     //Корректировка
+	
+	//Оплата бк
 
+function transliterateBKName() {
+    const russianName = document.getElementById('bkName').value.trim();
+    const latinNameElement = document.getElementById('bkLatinName');
+    const latinGroup = document.getElementById('bkLatinGroup');
+    
+    if (russianName) {
+        // Улучшенный словарь транслитерации
+        const translitMap = {
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
+            'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
+            'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
+            'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+            'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch',
+            'ш': 'sh', 'щ': 'sh', 'ъ': '', 'ы': 'y', 'ь': '',
+            'э': 'e', 'ю': 'yu', 'я': 'ya'
+        };
 
+        let latinName = '';
+        let words = russianName.split(/\s+/);
+        
+        for (let word of words) {
+            if (!word) continue;
+            
+            let latinWord = '';
+            for (let i = 0; i < word.length; i++) {
+                const char = word[i].toLowerCase();
+                
+                // Пропускаем мягкий знак
+                if (char === 'ь') continue;
+                
+                if (translitMap[char]) {
+                    // Для первой буквы в слове делаем заглавную
+                    if (i === 0) {
+                        const replacement = translitMap[char];
+                        latinWord += replacement.charAt(0).toUpperCase() + replacement.slice(1);
+                    } else {
+                        latinWord += translitMap[char];
+                    }
+                } else {
+                    latinWord += char;
+                }
+            }
+            
+            latinName += latinWord + ' ';
+        }
+        
+        // Улучшенная обработка окончаний
+        latinName = latinName.trim()
+            .replace(/(\w+)iy\b/gi, '$1y')   // -ий → -y
+            .replace(/(\w+)yy\b/gi, '$1y')    // -ый → -y
+            .replace(/(\w+)y\b/gi, '$1y');    // -ый → -y (дополнительная проверка)
+        
+        latinNameElement.textContent = latinName;
+        latinGroup.style.display = 'flex';
+    } else {
+        latinGroup.style.display = 'none';
+    }
+}
 
+function copyBKName() {
+    const latinName = document.getElementById('bkLatinName').textContent;
+    if (latinName) {
+        navigator.clipboard.writeText(latinName);
+        
+        // Визуальная обратная связь без alert
+        const copyButton = event.target;
+        const originalHtml = copyButton.innerHTML;
+        copyButton.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+        copyButton.classList.add('btn-success');
+        
+        setTimeout(() => {
+            copyButton.innerHTML = originalHtml;
+            copyButton.classList.remove('btn-success');
+        }, 1500);
+    }
+}
 
     //Изменение реквизитов
     function rekviz1() {
