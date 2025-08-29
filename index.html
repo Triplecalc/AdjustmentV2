@@ -1037,6 +1037,81 @@ function nr() {
       }
 }
     // Расчет new
+	
+	//Кнопка поделится
+	
+function copyInvitation() {
+  const invitationText = "Привет!\nЗацени этот инструмент — просто бомба для работы с шаблонами на МЭС! 🔥 https://triplecalc.github.io/AdjustmentV2/";
+  
+  navigator.clipboard.writeText(invitationText).then(() => {
+    // Отправляем событие в Яндекс.Метрику
+    if (typeof ym !== 'undefined') {
+      ym(103923903, 'reachGoal', 'share_invitation');
+    }
+	
+    
+    // Создаем красивое уведомление вместо alert
+    showNotification('Приглашение скопировано!');
+  }).catch(err => {
+    showNotification('Ошибка копирования', 'error');
+  });
+}
+
+function showNotification(message, type = 'success') {
+  // Создаем элемент уведомления
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#28a745' : '#dc3545'};
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  // Удаляем уведомление через 3 секунды
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
+}
+
+// Добавляем стили для анимации
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
 
   </script>
 <!-- Yandex.Metrika counter -->
@@ -1052,6 +1127,21 @@ function nr() {
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/103923903" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+<!-- Добавить в конец body перед закрывающим тегом </body> -->
+<div class="container-fluid mt-4 mb-4 text-center">
+  <a href="https://forms.yandex.ru/u/68b1d4bf5056901afddd51d9" target="_blank" class="text-decoration-none mr-3" style="color: #6c757d; font-size: 14px; transition: color 0.3s ease;">
+    <i class="fas fa-link mr-1"></i>
+    Перейти к форме обратной связи
+  </a>
+  
+  <span class="text-decoration-none" style="color: #6c757d; font-size: 14px; cursor: pointer;" onclick="copyInvitation()">
+    <i class="fas fa-share-alt mr-1"></i>
+    Поделиться
+  </span>
+</div>
+
+</body>
 	  </head>
 </html>
 
