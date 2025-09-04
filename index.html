@@ -65,7 +65,7 @@
     background: #f8f9fa;
     color: #212529;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     border: 1px solid #dee2e6;
     font-size: 14px;
 }
@@ -73,12 +73,19 @@
 .template-option:hover {
     background: #e9ecef;
     border-color: #adb5bd;
+    transform: translateY(-1px);
 }
 
 .template-option.active {
     background: #007bff;
     color: white;
     border-color: #007bff;
+}
+
+.template-option.copied {
+    background: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
 }
 
 /* Разделитель */
@@ -208,6 +215,22 @@
     opacity: 0.8;
     margin-top: 3px;
 }
+
+.change-log-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  width: 300px;
+  margin-top: 10px;
+}
+
 </style>
 
 
@@ -219,22 +242,24 @@
     <!-- bootstrap4 -->
 
  <style type="text/css">
-      #bloknot {
-        width: 150px; position: fixed;
-        z-index: 999;
-        right: 0;
-        transition: cubic-bezier(.61,1.95,.26,.95) .5s;
-      }
-      .text-template {
-        cursor: pointer;
-        color: #007bff;
-        text-decoration: underline;
-      }
-      .text-template:hover {
-        color: #0056b3;
-        text-decoration: none;
-      }
-    </style>
+  #bloknot {
+    width: 150px; 
+    position: fixed;
+    z-index: 999;
+    right: 0;
+    transition: cubic-bezier(.61,1.95,.26,.95) .5s;
+    display: none; /* Скрываем по умолчанию */
+  }
+  .text-template {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+  }
+  .text-template:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+</style>
   </head>
   <body>
   
@@ -247,7 +272,21 @@
 </style>
 -->
 
+<style>
+#hideBloknotBtn {
+  position: fixed;
+  right: 20px;
+  top: 100px;
+  z-index: 1000;
+  display: none;
+}
+</style>
+
 <textarea class="form-control" rows="3" id="bloknot"></textarea>
+<button onclick="document.getElementById('bloknot').style.display = 'none'" 
+        class="btn btn-sm btn-secondary" id="hideBloknotBtn">
+  <i class="fas fa-times"></i>
+</button>
 
     <div id="accordion">
       <div class="card">
@@ -266,7 +305,7 @@
 <div class="alert alert-primary center" role="alert">
 <div class="input-group">
     <span class="input-group-text">Не согласен с показаниями "Сети", Сетевой участок Россети МР; Дата сети
-  <input oninput="formatDate(this)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="sDate">; То
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" maxlength="10" placeholder="ХХ.ХХ.ХХХХ" style="width: 90px" id="sDate">; То
   <input type="text" style="width: 60px" maxlength="6" id="sT0"> ; Т1 
   <input type="text" style="width: 60px" maxlength="6" id="sT1"> ; Т2 
   <input type="text" style="width: 60px" maxlength="6" id="sT2"> ; Т3
@@ -325,23 +364,23 @@
    <div class="input-group">
     <span class="input-group-text">
   Показания на начало периода &nbsp;
-  <input type="text" style="width: 90px" id="nrDate1" placeholder="Дата">, Т1-
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" id="nrDate1" placeholder="Дата" maxlength="10">, Т1-
   <input type="text" style="width: 60px" id="nrT1">, Т2-
   <input type="text" style="width: 60px" id="nrT2">, Т3-
   <input type="text" style="width: 60px" id="nrT3">
     </span><span class="input-group-text">Текущие показания &nbsp;
-  <input type="text" style="width: 90px" id="nrDate2" placeholder="Дата">, Т1-
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" id="nrDate2" placeholder="Дата" maxlength="10">, Т1-
   <input type="text" style="width: 60px" id="nr1T1">, Т2-
   <input type="text" style="width: 60px" id="nr1T2">, Т3-
   <input type="text" style="width: 60px" id="nr1T3">
     </span><span class="input-group-text">Дата показаний, которые нужно корректировать &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
-  <input type="text" style="width: 90px" class="nrItog" placeholder="Дата"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
+  <input oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)" type="text" style="width: 90px" class="nrItog" placeholder="Дата" maxlength="10"> &nbsp;
     </span>
 </div>
  <button type="button" class="btn btn-primary mt-2" onclick="nr()">Рассчитать</button>
@@ -598,134 +637,130 @@
 
     <script type="text/javascript">
 
-    //Корректировка
-    function fnCopy1() {
-       navigator.clipboard.writeText(`Не согласен с показаниями "Сети",  Сетевой участок Россети МР; Дата сети ${sDate.value}; То ${sT0.value} ; Т1 ${sT1.value} ; Т2 ${sT2.value} ; Т3 ${sT3.value} ; Дата кл ${cDate.value}; То ${cT0.value} ; Т1 ${cT1.value} ; Т2 ${cT2.value} ; Т3 ${cT3.value} ;`)
-    }
-    function fnCopy2() {
-      if (fT3.value == '' && fT0.value== '') {
-       navigator.clipboard.writeText(`Клиент ошибочно передал показания ${fDate.value} Т1 ${fT1.value} ; Т2 ${fT2.value} ; Корректировочные показания на ${tDate.value} Т1 ${tT1.value} ; Т2 ${tT2.value} ;`)
-      }
-     else if (fT0.value == '') {
-       navigator.clipboard.writeText(`Клиент ошибочно передал показания ${fDate.value} Т1 ${fT1.value} ; Т2 ${fT2.value} ; Т3 ${fT3.value} ; Корректировочные показания на ${tDate.value} Т1 ${tT1.value} ; Т2 ${tT2.value} ; Т3 ${tT3.value} ;`)
-     }
-      else {
-       navigator.clipboard.writeText(`Клиент ошибочно передал показания ${fDate.value} То ${fT0.value} ; Корректировочные показания на ${tDate.value} То ${tT0.value} ;`)
-      }
-    }
-    function fnCopy3() {
-      if (f1T3.value == '' && f1T0.value== '') {
-       navigator.clipboard.writeText(`${f1Date.value} клиент ошибочно передал показания Т1-${f1T1.value}, Т2-${f1T2.value}, данные показания необходимо удалить. Корректные показания на ${t1Date.value}, Т1-${t1T1.value}, Т2-${t1T2.value}.`)
-      }
-     else if (f1T0.value == '') {
-       navigator.clipboard.writeText(`${f1Date.value} клиент ошибочно передал показания Т1-${f1T1.value}, Т2-${f1T2.value}, Т3-${f1T3.value}, данные показания необходимо удалить. Корректные показания на ${t1Date.value}, Т1-${t1T1.value}, Т2-${t1T2.value}, Т3-${t1T3.value}.`)
-     }
-      else {
-       navigator.clipboard.writeText(`${f1Date.value} клиент ошибочно передал показания То-${f1T0.value}, данные показания необходимо удалить. Корректные показания на ${t1Date.value}, То-${t1T0.value}.`)
-      }
-    }
-    //Корректировка
-	
-	//Оплата бк
-
-function transliterateBKName() {
-    const russianName = document.getElementById('bkName').value.trim();
-    const latinNameElement = document.getElementById('bkLatinName');
-    const latinGroup = document.getElementById('bkLatinGroup');
+// Основные функции для работы с датами
+function formatDate(input) {
+    let value = input.value.replace(/\./g, '');
     
-    if (russianName) {
-        // Улучшенный словарь транслитерации
-        const translitMap = {
-            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-            'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
-            'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
-            'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-            'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch',
-            'ш': 'sh', 'щ': 'sh', 'ъ': '', 'ы': 'y', 'ь': '',
-            'э': 'e', 'ю': 'yu', 'я': 'ya'
-        };
+    if (value.length > 8) {
+        value = value.slice(0, 8);
+    }
+    
+    if (value.length > 4) {
+        value = value.slice(0, 2) + '.' + value.slice(2, 4) + '.' + value.slice(4);
+    } else if (value.length > 2) {
+        value = value.slice(0, 2) + '.' + value.slice(2);
+    }
+    
+    input.value = value;
+}
 
-        let latinName = '';
-        let words = russianName.split(/\s+/);
-        
-        for (let word of words) {
-            if (!word) continue;
-            
-            let latinWord = '';
-            for (let i = 0; i < word.length; i++) {
-                const char = word[i].toLowerCase();
-                
-                // Пропускаем мягкий знак
-                if (char === 'ь') continue;
-                
-                if (translitMap[char]) {
-                    // Для первой буквы в слове делаем заглавную
-                    if (i === 0) {
-                        const replacement = translitMap[char];
-                        latinWord += replacement.charAt(0).toUpperCase() + replacement.slice(1);
-                    } else {
-                        latinWord += translitMap[char];
-                    }
-                } else {
-                    latinWord += char;
-                }
-            }
-            
-            latinName += latinWord + ' ';
-        }
-        
-        // Улучшенная обработка окончаний
-        latinName = latinName.trim()
-            .replace(/(\w+)iy\b/gi, '$1y')   // -ий → -y
-            .replace(/(\w+)yy\b/gi, '$1y')    // -ый → -y
-            .replace(/(\w+)y\b/gi, '$1y');    // -ый → -y (дополнительная проверка)
-        
-        latinNameElement.textContent = latinName;
-        latinGroup.style.display = 'flex';
+function dateInputFilter(input, event) {
+    const key = event.key;
+    const isDigit = /^\d$/.test(key);
+    const isControl = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key);
+    
+    if (!isDigit && !isControl) {
+        event.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+// Функции для корректировок
+function fnCopy1() {
+    const text = `Не согласен с показаниями "Сети", Сетевой участок Россети МР; Дата сети ${document.getElementById('sDate').value}; То ${document.getElementById('sT0').value} ; Т1 ${document.getElementById('sT1').value} ; Т2 ${document.getElementById('sT2').value} ; Т3 ${document.getElementById('sT3').value} ; Дата кл ${document.getElementById('cDate').value}; То ${document.getElementById('cT0').value} ; Т1 ${document.getElementById('cT1').value} ; Т2 ${document.getElementById('cT2').value} ; Т3 ${document.getElementById('cT3').value} ;`;
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Текст скопирован!');
+    });
+}
+
+function fnCopy2() {
+    const fDate = document.getElementById('fDate').value;
+    const fT0 = document.getElementById('fT0').value;
+    const fT1 = document.getElementById('fT1').value;
+    const fT2 = document.getElementById('fT2').value;
+    const fT3 = document.getElementById('fT3').value;
+    const tDate = document.getElementById('tDate').value;
+    const tT0 = document.getElementById('tT0').value;
+    const tT1 = document.getElementById('tT1').value;
+    const tT2 = document.getElementById('tT2').value;
+    const tT3 = document.getElementById('tT3').value;
+    
+    let text;
+    if (!fT3 && !fT0) {
+        text = `Клиент ошибочно передал показания ${fDate} Т1 ${fT1} ; Т2 ${fT2} ; Корректировочные показания на ${tDate} Т1 ${tT1} ; Т2 ${tT2} ;`;
+    } else if (!fT0) {
+        text = `Клиент ошибочно передал показания ${fDate} Т1 ${fT1} ; Т2 ${fT2} ; Т3 ${fT3} ; Корректировочные показания на ${tDate} Т1 ${tT1} ; Т2 ${tT2} ; Т3 ${tT3} ;`;
     } else {
-        latinGroup.style.display = 'none';
+        text = `Клиент ошибочно передал показания ${fDate} То ${fT0} ; Корректировочные показания на ${tDate} То ${tT0} ;`;
     }
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Текст скопирован!');
+    });
 }
 
-function copyBKName() {
-    const latinName = document.getElementById('bkLatinName').textContent;
-    if (latinName) {
-        navigator.clipboard.writeText(latinName);
-        
-        // Визуальная обратная связь без alert
-        const copyButton = event.target;
-        const originalHtml = copyButton.innerHTML;
-        copyButton.innerHTML = '<i class="fas fa-check"></i> Скопировано';
-        copyButton.classList.add('btn-success');
-        
-        setTimeout(() => {
-            copyButton.innerHTML = originalHtml;
-            copyButton.classList.remove('btn-success');
-        }, 1500);
+function fnCopy3() {
+    const f1Date = document.getElementById('f1Date').value;
+    const f1T0 = document.getElementById('f1T0').value;
+    const f1T1 = document.getElementById('f1T1').value;
+    const f1T2 = document.getElementById('f1T2').value;
+    const f1T3 = document.getElementById('f1T3').value;
+    const t1Date = document.getElementById('t1Date').value;
+    const t1T0 = document.getElementById('t1T0').value;
+    const t1T1 = document.getElementById('t1T1').value;
+    const t1T2 = document.getElementById('t1T2').value;
+    const t1T3 = document.getElementById('t1T3').value;
+    
+    let text;
+    if (!f1T3 && !f1T0) {
+        text = `${f1Date} клиент ошибочно передал показания Т1-${f1T1}, Т2-${f1T2}, данные показания необходимо удалить. Корректные показания на ${t1Date}, Т1-${t1T1}, Т2-${t1T2}.`;
+    } else if (!f1T0) {
+        text = `${f1Date} клиент ошибочно передал показания Т1-${f1T1}, Т2-${f1T2}, Т3-${f1T3}, данные показания необходимо удалить. Корректные показания на ${t1Date}, Т1-${t1T1}, Т2-${t1T2}, Т3-${t1T3}.`;
+    } else {
+        text = `${f1Date} клиент ошибочно передал показания То-${f1T0}, данные показания необходимо удалить. Корректные показания на ${t1Date}, То-${t1T0}.`;
     }
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Текст скопирован!');
+    });
 }
 
-    //Изменение реквизитов
-    function rekviz1() {
-      if (phone_1.value == '') {
-        navigator.clipboard.writeText(`Клиенту поступают E-mail на E-mail ${mail_1.value}  о задолженности по ЛС ${ls_1.value}. Клиент не имеет отношение к ЛС ${ls_1.value}. Дата информирования ${date_1.value}. E-mail информирование.`)
-      } 
-        else if (mail_1.value == '') {
-         navigator.clipboard.writeText(`Клиенту поступают звонки/смс на телефон ${phone_1.value} о задолженности по ЛС ${ls_1.value}. Клиент не имеет отношение к ЛС ${ls_1.value}. Дата информирования ${date_1.value}. Автообзвон/Росдолг, ручной обзвон/смс-оповещение.`)
-        }
-          else {
-           navigator.clipboard.writeText(`Клиенту поступают звонки/смс/ E-mail на телефон ${phone_1.value} /на E-mail ${mail_1.value}  о задолженности по ЛС ${ls_1.value} . Клиент не имеет отношение к ЛС ${ls_1.value} . Дата информирования ${date_1.value} . Автообзвон/ E-mail информирование/Росдолг, ручной обзвон/смс-оповещение.`)
-          }
+// Функции для изменения реквизитов
+function rekviz1() {
+    const phone = document.getElementById('phone_1').value;
+    const mail = document.getElementById('mail_1').value;
+    const ls = document.getElementById('ls_1').value;
+    const date = document.getElementById('date_1').value;
+    
+    let text;
+    if (!phone) {
+        text = `Клиенту поступают E-mail на E-mail ${mail} о задолженности по ЛС ${ls}. Клиент не имеет отношение к ЛС ${ls}. Дата информирования ${date}. E-mail информирование.`;
+    } else if (!mail) {
+        text = `Клиенту поступают звонки/смс на телефон ${phone} о задолженности по ЛС ${ls}. Клиент не имеет отношение к ЛС ${ls}. Дата информирования ${date}. Автообзвон/Росдолг, ручной обзвон/смс-оповещение.`;
+    } else {
+        text = `Клиенту поступают звонки/смс/ E-mail на телефон ${phone} /на E-mail ${mail} о задолженности по ЛС ${ls}. Клиент не имеет отношение к ЛС ${ls}. Дата информирования ${date}. Автообзвон/ E-mail информирование/Росдолг, ручной обзвон/смс-оповещение.`;
     }
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Текст скопирован!');
+    });
+}
 
-    function rekviz2() {
-      navigator.clipboard.writeText(`Клиенту на E-mail ${mail_2.value} поступила электронная квитанция по ЛС ${ls_2.value} . Клиент отказывается от получения эл. счетов. Адрес электронной почты ${mail_22.value} необходимо удалить из биллинга`)
-    }
-    //Изменение реквизитов
+function rekviz2() {
+    const mail = document.getElementById('mail_2').value;
+    const ls = document.getElementById('ls_2').value;
+    
+    const text = `Клиенту на E-mail ${mail} поступила электронная квитанция по ЛС ${ls}. Клиент отказывается от получения эл. счетов. Адрес электронной почты ${mail} необходимо удалить из биллинга`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Текст скопирован!');
+    });
+}
 
-    //Письма
-   var send_mail_arr = {
-      MKD : `Уважаемый клиент!
+// Функции для отправки писем
+const send_mail_arr = {
+    MKD: `Уважаемый клиент!
 Заявка на возобновление подачи электроэнергии по вашему адресу сформирована.
 Для возобновления подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
       
@@ -733,17 +768,18 @@ function copyBKName() {
 Оплата производится строго на номер счета указанный в приложенной квитанции № С – 843-*********-*-**
 Оплата произведенная по ЛС электроэнергии не учитывается в счет оплаты услуги по введению ограничения/приостановлению и возобновлению подачи электроэнергии.
 
-После оплаты квитанции счета Вам необходимо направить на электронный адрес vkl-MKD@mosenergosbyt.ru  следующую информацию:
+После оплаты квитанции счета Вам необходимо направить на электронный адрес vkl-MKD@mosenergosbyt.ru следующую информацию:
 1. Копию квитанции об оплате счета, направленного в Ваш адрес.
 2. Адрес, по которому оформлена заявка.
 
 Внимание! АО «Мосэнергосбыт» не имеет возможности получавать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
 
-Почтовый ящик vkl-MKD@mosenergosbyt.ru  предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
-      IGD_asumb : `Уважаемый клиент,
+Почтовый ящик vkl-MKD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
+
+    IGD_asumb: `Уважаемый клиент,
 Заявка на возобновления подачи электроэнергии по вашему адресу сформирована!
 Для возобновления подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
-Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 843-*********-*-** ( указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
+Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 843-*********-*-** (указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
 
 ВНИМАНИЕ!
 Оплата производится строго на номер счета указанный в приложенной квитанции № С – 843-*********-*-**
@@ -756,10 +792,11 @@ function copyBKName() {
 Внимание! АО «Мосэнергосбыт» не имеет возможности получавать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
 
 Обращаем Ваше внимание, что адрес электронной почты vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
-      IGD : `Уважаемый клиент,
+
+    IGD: `Уважаемый клиент,
 Заявка на возобновления подачи электроэнергии по вашему адресу сформирована!
 Для возобновления подачи электроэнергии, Вам необходимо произвести оплату расходов по введению ограничения/приостановлению и возобновлению подачи электроэнергии пройдя по ссылке: https://www.mosenergosbyt.ru/individuals/kak-oplatit-schyet/payments-extra9.php
-Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 842-*********-*-** ( указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
+Далее нажать на логотип банка «ВБРР», в поле «Номер счета» вписать номер счета из квитанции за оказание услуги № С – 842-*********-*-** (указанного в направленной квитанции), указать сумму оплаты и адрес электронной почты.
 
 ВНИМАНИЕ!
 Оплата производится строго на номер счета указанный в приложенной квитанции № С – 842-*********-*-**
@@ -772,46 +809,57 @@ function copyBKName() {
 Внимание! АО «Мосэнергосбыт» не имеет возможности получавать обращения с зарубежных почтовых серверов/сервисов, таких как: Gmail.com, Outlook.com, iCloud.com, Yahoo.com и т.п. При отправке квитанции на такие электронные адреса доставка также не будет осуществлена.
 
 Почтовый ящик vkl-IGD@mosenergosbyt.ru предназначен только для получения АО «Мосэнергосбыт» информации от потребителя-должника об осуществлении оплаты по компенсации расходов по отключению/возобновлению подачи электроснабжения бытовым потребителям, после погашения задолженности.`,
-      PD : `Добрый день!
+
+    PD: `Добрый день!
 Уважаемый клиент, во вложении квитанция по ЛС ххххх.
 Благодарим за обращение в АО «Мосэнергосбыт».`,
-      Akt : `Добрый день!
+
+    Akt: `Добрый день!
 Уважаемый клиент, акт сверки по ЛС ххх за период с ХХ по ХХ во вложении. 
 Благодарим за обращение в АО «Мосэнергосбыт»`,
-      TextTemplates: `Восстановление электроэнергии | Квитанция АО Мосэнергосбыт | Акт сверки АО Мосэнергосбыт`
-    };
 
-    // Добавить новую функцию для копирования текста
-    function copyTemplate(index) {
-      const templates = send_mail_arr['TextTemplates'].split(' | ');
-      if (index >= 0 && index < templates.length) {
-        navigator.clipboard.writeText(templates[index]);
-        // Визуальная обратная связь
-        const elements = document.querySelectorAll('.text-template');
-        elements[index].style.fontWeight = 'bold';
-        setTimeout(() => {
-          elements[index].style.fontWeight = 'normal';
-        }, 500);
-      }
+    TextTemplates: `Восстановление электроэнергии | Квитанция АО Мосэнергосбыт | Акт сверки АО Мосэнергосбыт`
+};
+
+function send_mail(arg) {
+    navigator.clipboard.writeText(send_mail_arr[arg]).then(() => {
+        showNotification('Текст письма скопирован!');
+    });
+}
+
+function copyTemplate(index) {
+    const templates = send_mail_arr['TextTemplates'].split(' | ');
+    if (index >= 0 && index < templates.length) {
+        navigator.clipboard.writeText(templates[index]).then(() => {
+            // Визуальная обратная связь для кнопок тем
+            const templateButtons = document.querySelectorAll('.template-option');
+            templateButtons[index].style.fontWeight = 'bold';
+            templateButtons[index].style.backgroundColor = '#007bff';
+            templateButtons[index].style.color = 'white';
+            
+            setTimeout(() => {
+                templateButtons[index].style.fontWeight = 'normal';
+                templateButtons[index].style.backgroundColor = '#f8f9fa';
+                templateButtons[index].style.color = '#212529';
+            }, 1000);
+            
+            // Показываем уведомление
+            showNotification('Тема скопирована: ' + templates[index]);
+        }).catch(err => {
+            showNotification('Ошибка копирования', 'error');
+        });
     }
+}
 
-    function send_mail(arg) {
-      navigator.clipboard.writeText(send_mail_arr[arg])
-    }
-	//Письма
-
-
-// Функции для вкладки "Жалоба на отключение ЭЭ"
+// Функции для жалобы на отключение ЭЭ
 let selectedComplaintType = '';
 let selectedConfirmationType = '';
 
 function selectComplaintType(type) {
     selectedComplaintType = type;
-    const themeText = document.getElementById('themeText');
-    themeText.textContent = type;
+    document.getElementById('themeText').textContent = type;
     document.getElementById('selectedTheme').style.display = 'block';
     
-    // Сбрасываем подтверждение при смене типа жалобы
     selectedConfirmationType = '';
     document.querySelectorAll('#confirmationTypeGroup button').forEach(btn => {
         btn.classList.remove('active');
@@ -828,17 +876,16 @@ function selectComplaintType(type) {
     }
 }
 
-// Новая функция для копирования темы письма
 function copyThemeText() {
     const themeText = document.getElementById('themeText').textContent;
     if (themeText) {
         navigator.clipboard.writeText(themeText).then(() => {
-            // Визуальная обратная связь
             const element = document.getElementById('themeText');
             element.style.fontWeight = 'bold';
             setTimeout(() => {
                 element.style.fontWeight = 'normal';
             }, 500);
+            showNotification('Тема скопирована!');
         });
     }
 }
@@ -865,12 +912,13 @@ function syncPaymentDate(dateValue) {
 
 function copyComplaint() {
     const phone = document.getElementById('complaintPhone').value;
-    let text = '';
     
     if (!phone) {
-        alert('Пожалуйста, укажите телефон для связи');
+        showNotification('Пожалуйста, укажите телефон для связи', 'error');
         return;
     }
+    
+    let text = '';
     
     if (selectedComplaintType === 'Ошибочное отключение') {
         text = `Со слов клиента, отключили э/э. Задолженности - нет, в графике на ограничение ЛС нет. Тел. для связи ${phone}`;
@@ -878,7 +926,7 @@ function copyComplaint() {
         const complaintDate = formatDisplayDate(document.getElementById('complaintDate').value);
         
         if (!complaintDate) {
-            alert('Пожалуйста, укажите дату оплаты');
+            showNotification('Пожалуйста, укажите дату оплаты', 'error');
             return;
         }
         
@@ -889,42 +937,23 @@ function copyComplaint() {
             const email = document.getElementById('complaintEmail').value;
             
             if (!email) {
-                alert('Пожалуйста, укажите email');
+                showNotification('Пожалуйста, укажите email', 'error');
                 return;
             }
             
             text = `э/э оплачена ${complaintDate}, направлен чек ${paymentDate} с эл. почты ${email}, тел. для связи ${phone}`;
         } else {
-            alert('Пожалуйста, выберите тип подтверждения');
+            showNotification('Пожалуйста, выберите тип подтверждения', 'error');
             return;
         }
     }
     
     navigator.clipboard.writeText(text).then(() => {
-        alert('Текст скопирован в буфер обмена!');
+        showNotification('Текст жалобы скопирован!');
     });
 }
 
-// Вспомогательная функция для форматирования даты
-function formatDisplayDate(dateString) {
-    if (!dateString) return '';
-    const parts = dateString.split('-');
-    return `${parts[2]}.${parts[1]}.${parts[0]}`;
-}
-
-// Инициализация при загрузке
-document.addEventListener('DOMContentLoaded', function() {
-    // Установка дат по умолчанию
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('complaintDate').value = today;
-    document.getElementById('paymentDate').value = today;
-    
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-    document.getElementById('contractDate').value = oneMonthAgo.toISOString().split('T')[0];
-});
-
-// Функции для вкладки "Жалоба на сроки заключения договора"
+// Функции для жалобы на сроки заключения договора
 let selectedContractType = '';
 
 function selectContractType(type) {
@@ -941,26 +970,227 @@ function selectContractType(type) {
 function copyContractComplaint() {
     const date = formatDisplayDate(document.getElementById('contractDate').value);
     const clientNumber = document.getElementById('clientNumber').value;
+    
+    if (!clientNumber) {
+        showNotification('Пожалуйста, укажите номер клиента', 'error');
+        return;
+    }
+    
     let text = '';
     
     if (selectedContractType === 'Подача в ЛКК') {
         const requestNumber = document.getElementById('requestNumber').value;
+        if (!requestNumber) {
+            showNotification('Пожалуйста, укажите номер заявки', 'error');
+            return;
+        }
         text = `${date} через ЛКК оформлена услуга Оформление заявки на заключение договора с физ. лицом № ${requestNumber}. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
     } else {
         const officeAddress = document.getElementById('officeAddress').value;
+        if (!officeAddress) {
+            showNotification('Пожалуйста, укажите адрес/название КО', 'error');
+            return;
+        }
         text = `${date} в КО ${officeAddress} клиент подавал заявку на заключение договора. 30 дней истекли, договор не заключен, ЛС не присвоен. Просьба посодействовать в решении вопроса, дать обратную связь клиенту, присвоить ЛС. Номер клиента: ${clientNumber}`;
     }
     
     navigator.clipboard.writeText(text).then(() => {
-        alert('Текст скопирован в буфер обмена!');
+        showNotification('Текст жалобы скопирован!');
     });
 }
 
-// Вспомогательная функция для форматирования даты
+// Функции для оплаты БК
+function transliterateBKName() {
+    const russianName = document.getElementById('bkName').value.trim();
+    const latinNameElement = document.getElementById('bkLatinName');
+    const latinGroup = document.getElementById('bkLatinGroup');
+    
+    if (russianName) {
+        const translitMap = {
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
+            'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
+            'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
+            'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+            'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch',
+            'ш': 'sh', 'щ': 'sh', 'ъ': '', 'ы': 'y', 'ь': '',
+            'э': 'e', 'ю': 'yu', 'я': 'ya'
+        };
+
+        let latinName = '';
+        let words = russianName.split(/\s+/);
+        
+        for (let word of words) {
+            if (!word) continue;
+            
+            let latinWord = '';
+            for (let i = 0; i < word.length; i++) {
+                const char = word[i].toLowerCase();
+                
+                if (char === 'ь') continue;
+                
+                if (translitMap[char]) {
+                    if (i === 0) {
+                        const replacement = translitMap[char];
+                        latinWord += replacement.charAt(0).toUpperCase() + replacement.slice(1);
+                    } else {
+                        latinWord += translitMap[char];
+                    }
+                } else {
+                    latinWord += char;
+                }
+            }
+            
+            latinName += latinWord + ' ';
+        }
+        
+        latinName = latinName.trim()
+            .replace(/(\w+)iy\b/gi, '$1y')
+            .replace(/(\w+)yy\b/gi, '$1y')
+            .replace(/(\w+)y\b/gi, '$1y');
+        
+        latinNameElement.textContent = latinName;
+        latinGroup.style.display = 'flex';
+    } else {
+        latinGroup.style.display = 'none';
+    }
+}
+
+function copyBKName() {
+    const latinName = document.getElementById('bkLatinName').textContent;
+    if (latinName) {
+        navigator.clipboard.writeText(latinName).then(() => {
+            const copyButton = event.target;
+            const originalHtml = copyButton.innerHTML;
+            copyButton.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+            copyButton.classList.add('btn-success');
+            
+            setTimeout(() => {
+                copyButton.innerHTML = originalHtml;
+                copyButton.classList.remove('btn-success');
+            }, 1500);
+            
+            showNotification('ФИО скопировано!');
+        });
+    }
+}
+
+// Функция для расчета корректировок
+function nr() {
+    const bloknot = document.getElementById('bloknot');
+    const hideBtn = document.getElementById('hideBloknotBtn');
+    
+    bloknot.style.display = 'block';
+    hideBtn.style.display = 'block';
+    bloknot.value = '';
+    
+    const nrDate1 = document.getElementById('nrDate1').value;
+    const nrDate2 = document.getElementById('nrDate2').value;
+    const nrT1 = parseFloat(document.getElementById('nrT1').value) || 0;
+    const nrT2 = parseFloat(document.getElementById('nrT2').value) || 0;
+    const nrT3 = parseFloat(document.getElementById('nrT3').value) || 0;
+    const nr1T1 = parseFloat(document.getElementById('nr1T1').value) || 0;
+    const nr1T2 = parseFloat(document.getElementById('nr1T2').value) || 0;
+    const nr1T3 = parseFloat(document.getElementById('nr1T3').value) || 0;
+    
+    if (!nrDate1 || !nrDate2) {
+        showNotification('Пожалуйста, заполните обе даты', 'error');
+        return;
+    }
+    
+    const d1Parts = nrDate1.split('.');
+    const d2Parts = nrDate2.split('.');
+    
+    const d1 = new Date(d1Parts[2], d1Parts[1] - 1, d1Parts[0]);
+    const d2 = new Date(d2Parts[2], d2Parts[1] - 1, d2Parts[0]);
+    
+    const diffInMs = Math.abs(d2 - d1);
+    const msInDay = 1000 * 60 * 60 * 24;
+    const dp = Math.floor(diffInMs / msInDay);
+    
+    if (dp === 0) {
+        showNotification('Даты не могут быть одинаковыми', 'error');
+        return;
+    }
+    
+    const drT1 = (nr1T1 - nrT1) / dp;
+    const drT2 = (nr1T2 - nrT2) / dp;
+    const drT3 = (nr1T3 - nrT3) / dp;
+    
+    const itogInputs = document.querySelectorAll('.nrItog');
+    itogInputs.forEach(input => {
+        const d3 = input.value;
+        if (d3) {
+            const d3Parts = d3.split('.');
+            const CurDate = new Date(d3Parts[2], d3Parts[1] - 1, d3Parts[0]);
+            const diffInMs1 = Math.abs(CurDate - d1);
+            const dp1 = Math.floor(diffInMs1 / msInDay);
+            
+            const itogT1 = Math.floor(drT1 * dp1 + nrT1);
+            const itogT2 = Math.floor(drT2 * dp1 + nrT2);
+            const itogT3 = Math.floor(drT3 * dp1 + nrT3);
+            
+            // Только корректировочные показания без лишнего текста
+            if (nrT2 === 0 && nrT3 === 0) {
+                bloknot.value += `Корректировочные показания на ${d3} То ${itogT1} ;\n`;
+            } else if (nrT3 === 0) {
+                bloknot.value += `Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ;\n`;
+            } else {
+                bloknot.value += `Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ; Т3 ${itogT3} ;\n`;
+            }
+        }
+    });
+    
+    bloknot.style.width = '1000px';
+    bloknot.style.height = '250px';
+}
+
+// Вспомогательные функции
 function formatDisplayDate(dateString) {
     if (!dateString) return '';
+    if (dateString.includes('.')) return dateString;
+    
     const parts = dateString.split('-');
     return `${parts[2]}.${parts[1]}.${parts[0]}`;
+}
+
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#28a745' : '#dc3545'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        font-size: 14px;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+function copyInvitation() {
+    const invitationText = "Привет!\nЗацени этот инструмент — просто бомба для работы с шаблонами на МЭС! 🔥 https://triplecalc.github.io/AdjustmentV2/";
+    
+    navigator.clipboard.writeText(invitationText).then(() => {
+        if (typeof ym !== 'undefined') {
+            ym(103923903, 'reachGoal', 'share_invitation');
+        }
+        showNotification('Приглашение скопировано!');
+    }).catch(err => {
+        showNotification('Ошибка копирования', 'error');
+    });
 }
 
 // Инициализация при загрузке
@@ -978,138 +1208,52 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('complaintDate').addEventListener('change', function() {
         document.getElementById('paymentDate').value = this.value;
     });
+    
+    // Обработка change log
+    const changeLogTrigger = document.querySelector('.change-log-trigger');
+    const changeLogContent = document.querySelector('.change-log-content');
+    
+    if (changeLogTrigger && changeLogContent) {
+        changeLogTrigger.addEventListener('mouseenter', function() {
+            changeLogContent.style.display = 'block';
+        });
+        
+        changeLogTrigger.parentElement.addEventListener('mouseleave', function() {
+            changeLogContent.style.display = 'none';
+        });
+    }
+    
+    // Скрытие блокнота
+    document.getElementById('hideBloknotBtn').addEventListener('click', function() {
+        document.getElementById('bloknot').style.display = 'none';
+        this.style.display = 'none';
+    });
 });
 
-// Остальные существующие функции (fnCopy1, fnCopy2, fnCopy3, rekviz1, rekviz2, send_mail и т.д.)
-// ... оставьте без изменений ...
-
-
-    // Расчет new
-function nr() {
-    bloknot.value = ''
-    const d1 = new Date(nrDate1.value.slice(6), nrDate1.value.slice(3, 5), nrDate1.value.slice(0, 2));
-    const d2 = new Date(nrDate2.value.slice(6), nrDate2.value.slice(3, 5), nrDate2.value.slice(0, 2));
-    const diffInMs = Math.abs(d2 - d1);
-    const msInDay = 1000 * 60 * 60 * 24;
-    const dp = Math.floor(diffInMs / msInDay);
-    const drT1 = (nr1T1.value - nrT1.value) / dp
-    const drT2 = (nr1T2.value - nrT2.value) / dp
-    const drT3 = (nr1T3.value - nrT3.value) / dp
-    $('.nrItog').each( function () {
-      const d3 = $(this).val()
-      if (d3 != '') {
-      const CurDate = new Date(d3.slice(6), d3.slice(3, 5), d3.slice(0, 2));
-      const diffInMs1 = Math.abs(CurDate - d1);
-      const dp1 = Math.floor(diffInMs1 / msInDay)
-      console.log(drT1) //для отладки
-      console.log(dp1) //для отладки
-      const itogT1 = Math.floor(drT1 * dp1 + Number(nrT1.value))
-      const itogT2 = Math.floor(drT2 * dp1 + Number(nrT2.value))
-      const itogT3 = Math.floor(drT3 * dp1 + Number(nrT3.value))
-      if (itogT2 == '') {
-       bloknot.value += `Клиент ошибочно передал показания ${d3} То xxxx ; Корректировочные показания на ${d3} То ${itogT1} ;
-`
-      }
-     else if (itogT3 == '') {
-       bloknot.value += `Клиент ошибочно передал показания ${d3} Т1 xxxx ; Т2 xxxx ; Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ;
-`
-     }
-      else {
-       bloknot.value += `Клиент ошибочно передал показания ${d3} Т1 xxxx ; Т2 xxxx ; Т3 xxxx ; Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ; Т3 ${itogT3} ;
-`
-      }
-      $('#bloknot').attr('style', 'width: 1000px; height: 250px')
-      }
-    })
-	
-	// Новая функция для копирования текстовых шаблонов
-      function copyTemplate(index) {
-        const templates = send_mail_arr['TextTemplates'].split(' | ');
-        if (index >= 0 && index < templates.length) {
-          navigator.clipboard.writeText(templates[index]);
-          // Визуальная обратная связь
-          const elements = document.querySelectorAll('.text-template');
-          elements[index].style.fontWeight = 'bold';
-          setTimeout(() => {
-            elements[index].style.fontWeight = 'normal';
-          }, 500);
-        }
-      }
-}
-    // Расчет new
-	
-	//Кнопка поделится
-	
-function copyInvitation() {
-  const invitationText = "Привет!\nЗацени этот инструмент — просто бомба для работы с шаблонами на МЭС! 🔥 https://triplecalc.github.io/AdjustmentV2/";
-  
-  navigator.clipboard.writeText(invitationText).then(() => {
-    // Отправляем событие в Яндекс.Метрику
-    if (typeof ym !== 'undefined') {
-      ym(103923903, 'reachGoal', 'share_invitation');
-    }
-	
-    
-    // Создаем красивое уведомление вместо alert
-    showNotification('Приглашение скопировано!');
-  }).catch(err => {
-    showNotification('Ошибка копирования', 'error');
-  });
-}
-
-function showNotification(message, type = 'success') {
-  // Создаем элемент уведомления
-  const notification = document.createElement('div');
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: ${type === 'success' ? '#28a745' : '#dc3545'};
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 10000;
-    font-size: 14px;
-    animation: slideIn 0.3s ease;
-  `;
-  
-  notification.textContent = message;
-  document.body.appendChild(notification);
-  
-  // Удаляем уведомление через 3 секунды
-  setTimeout(() => {
-    notification.style.animation = 'slideOut 0.3s ease';
-    setTimeout(() => {
-      document.body.removeChild(notification);
-    }, 300);
-  }, 3000);
-}
-
-// Добавляем стили для анимации
+// Добавление стилей для анимации
 const style = document.createElement('style');
 style.textContent = `
-  @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
-    to {
-      transform: translateX(0);
-      opacity: 1;
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
     }
-  }
-  
-  @keyframes slideOut {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-  }
 `;
 document.head.appendChild(style);
 
@@ -1140,6 +1284,38 @@ document.head.appendChild(style);
     Поделиться
   </span>
 </div>
+
+<!-- Change Log Menu -->
+<div class="container-fluid mt-2 mb-2 text-center position-relative">
+  <div class="change-log-container" style="display: inline-block;">
+    <span class="change-log-trigger" style="color: #6c757d; font-size: 14px; cursor: pointer;">
+      <i class="fas fa-info-circle mr-1"></i>
+      Change Log
+    </span>
+    <div class="change-log-content" style="display: none; position: absolute; left: 50%; transform: translateX(-50%); background: white; border: 1px solid #ddd; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; width: 300px; margin-top: 10px;">
+      <h6 style="font-weight: bold; margin-bottom: 10px;">Изменения в новой версии</h6>
+      <p style="margin: 5px 0; font-size: 13px;">1. Добавлена вкладка change log чтобы было видно изменения в программе</p>
+      <p style="margin: 5px 0; font-size: 13px;">2. Добавлен номер сборки <strong>v1.0.0 beta</strong></p>
+	  <p style="margin: 5px 0; font-size: 13px;">3. Добавлено больше уведомлений для визуальной состовляющей</p>
+	  <p style="margin: 5px 0; font-size: 13px;">4. Добавлена валидация дат в блок корректировок</p>
+	  <p style="margin: 5px 0; font-size: 13px;">5. Изменён алгорит отображения расчётов. Теперь видно только корректировочные показания.
+	  Если вы знаете, как можно визуально сделать лучше - появилась форма обратной связи для вопросов | предложений | Ошибок в работе ПО</p>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+// Функция для показа/скрытия change log
+document.querySelector('.change-log-trigger').addEventListener('mouseenter', function() {
+  document.querySelector('.change-log-content').style.display = 'block';
+});
+
+document.querySelector('.change-log-container').addEventListener('mouseleave', function() {
+  document.querySelector('.change-log-content').style.display = 'none';
+});
+</script>
 
 </body>
 	  </head>
