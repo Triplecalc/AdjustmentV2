@@ -402,6 +402,10 @@
     </span>
 </div>
  <button type="button" class="btn btn-primary mt-2" onclick="nr()">Скопировать</button>
+	    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Текст скопирован!');
+    });
+}
 </div>
 
 </div>
@@ -1299,6 +1303,7 @@ document.querySelector('.change-log-container').addEventListener('mouseleave', f
 </body>
 	  </head>
 </html>
+
 
 
 
