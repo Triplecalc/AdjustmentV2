@@ -1111,75 +1111,27 @@ function copyBKName() {
     }
 }
 
-// Функция для расчета корректировок
+		 // Автоматическая корректировка
 function nr() {
-    const bloknot = document.getElementById('bloknot');
-    const hideBtn = document.getElementById('hideBloknotBtn');
-    
-    bloknot.style.display = 'block';
-    hideBtn.style.display = 'block';
-    bloknot.value = '';
-    
-    const nrDate1 = document.getElementById('nrDate1').value;
-    const nrDate2 = document.getElementById('nrDate2').value;
-    const nrT1 = parseFloat(document.getElementById('nrT1').value) || 0;
-    const nrT2 = parseFloat(document.getElementById('nrT2').value) || 0;
-    const nrT3 = parseFloat(document.getElementById('nrT3').value) || 0;
-    const nr1T1 = parseFloat(document.getElementById('nr1T1').value) || 0;
-    const nr1T2 = parseFloat(document.getElementById('nr1T2').value) || 0;
-    const nr1T3 = parseFloat(document.getElementById('nr1T3').value) || 0;
-    
-    if (!nrDate1 || !nrDate2) {
-        showNotification('Пожалуйста, заполните обе даты', 'error');
-        return;
-    }
-    
-    const d1Parts = nrDate1.split('.');
-    const d2Parts = nrDate2.split('.');
-    
-    const d1 = new Date(d1Parts[2], d1Parts[1] - 1, d1Parts[0]);
-    const d2 = new Date(d2Parts[2], d2Parts[1] - 1, d2Parts[0]);
-    
-    const diffInMs = Math.abs(d2 - d1);
-    const msInDay = 1000 * 60 * 60 * 24;
-    const dp = Math.floor(diffInMs / msInDay);
-    
-    if (dp === 0) {
-        showNotification('Даты не могут быть одинаковыми', 'error');
-        return;
-    }
-    
-    const drT1 = (nr1T1 - nrT1) / dp;
-    const drT2 = (nr1T2 - nrT2) / dp;
-    const drT3 = (nr1T3 - nrT3) / dp;
-    
-    const itogInputs = document.querySelectorAll('.nrItog');
-    itogInputs.forEach(input => {
-        const d3 = input.value;
-        if (d3) {
-            const d3Parts = d3.split('.');
-            const CurDate = new Date(d3Parts[2], d3Parts[1] - 1, d3Parts[0]);
-            const diffInMs1 = Math.abs(CurDate - d1);
-            const dp1 = Math.floor(diffInMs1 / msInDay);
-            
-            const itogT1 = Math.floor(drT1 * dp1 + nrT1);
-            const itogT2 = Math.floor(drT2 * dp1 + nrT2);
-            const itogT3 = Math.floor(drT3 * dp1 + nrT3);
-            
-            // Только корректировочные показания без лишнего текста
-            if (nrT2 === 0 && nrT3 === 0) {
-                bloknot.value += `Корректировочные показания на ${d3} То ${itogT1} ;\n`;
-            } else if (nrT3 === 0) {
-                bloknot.value += `Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ;\n`;
-            } else {
-                bloknot.value += `Корректировочные показания на ${d3} Т1 ${itogT1} ; Т2 ${itogT2} ; Т3 ${itogT3} ;\n`;
-            }
-        }
-    });
-    
-    bloknot.style.width = '1000px';
-    bloknot.style.height = '250px';
+    var toCopy = ''
+      if (nrT2.value == '') {
+       toCopy += `Текущие показания клиента ${nrDate2.value} То ${nrT1.value} ; Необходимо провести автоматическую корректировку показаний на даты: `
+      }
+     else if (nrT3.value == '') {
+       toCopy += `Текущие показания клиента ${nrDate2.value} Т1 ${nrT1.value} ; Т2 ${nrT2.value} ; Необходимо провести автоматическую корректировку показаний на даты: `
+     }
+      else {
+       toCopy += `Текущие показания клиента ${nrDate2.value} Т1 ${nrT1.value} ; Т2 ${nrT2.value} ; Т3 ${nrT3.value} ; Необходимо провести автоматическую корректировку показаний на даты: `
+      }
+    $('.nrItog').each( function () {
+      const d3 = $(this).val()
+      if (d3 != '') {
+      toCopy += `${d3}, `
+      }
+    })
+    navigator.clipboard.writeText(toCopy.slice(0,-2))
 }
+    // Автоматическая корректировка
 
 // Вспомогательные функции
 function formatDisplayDate(dateString) {
@@ -1366,5 +1318,6 @@ document.querySelector('.change-log-container').addEventListener('mouseleave', f
 </body>
 	  </head>
 </html>
+
 
 
