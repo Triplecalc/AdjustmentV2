@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Шаблоны МЭС</title>
+  <link rel="icon" href="https://www.mosenergosbyt.ru/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Блокировка мобильных устройств -->
+  <div class="mobile-block">
+    <div class="mobile-block__icon">⚠️</div>
+    <h2>Сайт не работает на мобильных устройствах</h2>
+    <p>Пожалуйста, откройте сайт на компьютере или ноутбуке.</p>
+    <p>Данный инструмент предназначен для работы на ПК.</p>
+  </div>
+
+  <!-- ======================= -->
+  <!-- ЭКРАН АВТОРИЗАЦИИ      -->
+  <!-- ======================= -->
+  <div id="login-screen" style="display:none">
+    <div class="login-bg">
+      <div class="login-card">
+        <div class="login-logo"><i class="fas fa-bolt"></i></div>
+        <h1 class="login-title">Шаблоны МЭС</h1>
+        <p class="login-subtitle">Войдите в систему для продолжения</p>
+        <div class="login-fields">
+          <div class="login-field-group">
+            <label class="login-label">Логин</label>
+            <input type="text" class="login-input" id="loginUsername" placeholder="Введите логин" autocomplete="username">
+          </div>
+          <div class="login-field-group">
+            <label class="login-label">Пароль</label>
+            <input type="password" class="login-input" id="loginPassword" placeholder="Введите пароль" autocomplete="current-password">
+          </div>
+          <div class="login-error" id="loginError" style="display:none">Неверный логин или пароль</div>
+          <button class="btn btn-primary login-btn" id="loginBtn">
+            <i class="fas fa-sign-in-alt"></i> Войти
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= -->
+  <!-- ЭКРАН БЛОКИРОВКИ        -->
+  <!-- ======================= -->
+  <div id="lock-screen" style="display:none">
+    <div class="login-bg">
+      <div class="login-card">
+        <div class="login-logo lock-icon"><i class="fas fa-lock"></i></div>
+        <h1 class="login-title">Система заблокирована</h1>
+        <p class="login-subtitle">Введите пароль для разблокировки</p>
+        <div class="login-fields">
+          <div class="login-field-group">
+            <label class="login-label">Пароль</label>
+            <input type="password" class="login-input" id="lockPassword" placeholder="Введите пароль" autocomplete="current-password">
+          </div>
+          <div class="login-error" id="lockError" style="display:none">Неверный пароль</div>
+          <button class="btn btn-primary login-btn" id="unlockBtn">
+            <i class="fas fa-unlock"></i> Разблокировать
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Основной контент -->
+  <div id="main-content">
+
+    <!-- Шапка -->
+    <header class="app-header">
+      <div class="app-header__inner">
+        <div class="app-header__title">
+          <i class="fas fa-bolt"></i>
+          Шаблоны
+        </div>
+        <div class="app-header__meta">
+          <span class="version-badge">v2.2</span>
+          <div class="app-header__actions">
+            <button class="theme-toggle" id="themeToggleBtn" title="Сменить тему">
+              <i class="fas fa-moon" id="themeIcon"></i>
+              <span id="themeLabel">Светлая</span>
+            </button>
+            <button class="lock-btn" id="lockBtn" title="Заблокировать">
+              <i class="fas fa-lock"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Основной контейнер -->
+    <main class="app-main">
+
+      <!-- ======================= -->
+      <!-- СЕКЦИЯ 1: Корректировки -->
+      <!-- ======================= -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-corrections">
+          <span class="accordion-toggle__icon"><i class="fas fa-edit"></i></span>
+          <span class="accordion-toggle__label">Корректировки</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-corrections">
+
+          <!-- Блок 1: Показания Сети -->
+          <div class="form-card">
+            <div class="form-card__label">Не согласен с показаниями «Сети»</div>
+            <div class="inline-form-row">
+              <label class="inline-label">Дата сети</label>
+              <input class="input-sm" type="text" maxlength="10" placeholder="ДД.ММ.ГГГГ" id="sDate" oninput="formatDate(this)" onkeydown="return dateInputFilter(this, event)">
+              <label class="inline-label">То</label>
+              <input class="input-sm" type="text" maxlength="6" id="sT0">
+              <label class="inline-label">Т1</label>
+              <input class="input-sm" type="text" maxlength="6" id="sT1">
+              <label class="inline-label">Т2</label>
+              <input class="input-sm" type="text" maxlength="6" id="sT2">
+              <label class="inline-label">Т3</label>
+              <input class="input-sm" type="text" maxlength="6" id="sT3">
+            </div>
+            <div class="inline-form-row mt-8">
+              <label class="inline-label">Дата кл.</label>
+              <input class="input-sm" type="text" maxlength="10" placeholder="ДД.ММ.ГГГГ" id="cDate" oninput="formatDate(this)">
+              <label class="inline-label">То</label>
+              <input class="input-sm" type="text" maxlength="6" id="cT0">
+              <label class="inline-label">Т1</label>
+              <input class="input-sm" type="text" maxlength="6" id="cT1">
+              <label class="inline-label">Т2</label>
+              <input class="input-sm" type="text" maxlength="6" id="cT2">
+              <label class="inline-label">Т3</label>
+              <input class="input-sm" type="text" maxlength="6" id="cT3">
+            </div>
+            <button class="btn btn-primary mt-12" id="btnCopy1">
+              <i class="fas fa-copy"></i> Скопировать
+            </button>
+          </div>
+
+          <!-- Блок 2: Ошибочная передача показаний -->
+          <div class="form-card">
+            <div class="form-card__label">Ошибочно переданные показания клиентом</div>
+            <div class="inline-form-row">
+              <input class="input-sm" type="text" maxlength="10" placeholder="ДД.ММ.ГГГГ" id="f1Date" oninput="formatDate(this)">
+              <label class="inline-label">клиент ошибочно передал То-</label>
+              <input class="input-sm" type="text" maxlength="6" id="f1T0">
+              <label class="inline-label">Т1-</label>
+              <input class="input-sm" type="text" maxlength="6" id="f1T1">
+              <label class="inline-label">Т2-</label>
+              <input class="input-sm" type="text" maxlength="6" id="f1T2">
+              <label class="inline-label">Т3-</label>
+              <input class="input-sm" type="text" maxlength="6" id="f1T3">
+            </div>
+            <div class="inline-form-row mt-8">
+              <label class="inline-label">Корректные на</label>
+              <input class="input-sm" type="text" maxlength="10" placeholder="ДД.ММ.ГГГГ" id="t1Date" oninput="formatDate(this)">
+              <label class="inline-label">То-</label>
+              <input class="input-sm" type="text" maxlength="6" id="t1T0">
+              <label class="inline-label">Т1-</label>
+              <input class="input-sm" type="text" maxlength="6" id="t1T1">
+              <label class="inline-label">Т2-</label>
+              <input class="input-sm" type="text" maxlength="6" id="t1T2">
+              <label class="inline-label">Т3-</label>
+              <input class="input-sm" type="text" maxlength="6" id="t1T3">
+            </div>
+            <button class="btn btn-primary mt-12" id="btnCopy3">
+              <i class="fas fa-copy"></i> Скопировать
+            </button>
+          </div>
+
+          <!-- Блок 3: Автоматическая корректировка -->
+          <div class="form-card">
+            <div class="form-card__label">Автоматическая корректировка</div>
+            <div class="inline-form-row">
+              <label class="inline-label">Текущие показания</label>
+              <input class="input-sm" type="text" maxlength="10" placeholder="ДД.ММ.ГГГГ" id="nrDate2" oninput="formatDate(this)">
+              <label class="inline-label">Т1-</label>
+              <input class="input-sm" type="text" id="nrT1">
+              <label class="inline-label">Т2-</label>
+              <input class="input-sm" type="text" id="nrT2">
+              <label class="inline-label">Т3-</label>
+              <input class="input-sm" type="text" id="nrT3">
+            </div>
+            <div class="inline-form-row mt-8">
+              <label class="inline-label">Даты для корректировки:</label>
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+              <input class="input-sm nrItog" type="text" placeholder="Дата">
+            </div>
+            <button class="btn btn-primary mt-12" id="btnNr">
+              <i class="fas fa-copy"></i> Скопировать
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================== -->
+      <!-- СЕКЦИЯ 2: Жалоба на сроки ПД   -->
+      <!-- =============================== -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-pd">
+          <span class="accordion-toggle__icon"><i class="fas fa-envelope-open-text"></i></span>
+          <span class="accordion-toggle__label">Жалоба на сроки доставки ПД</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-pd">
+          <div class="form-card">
+            <table class="data-table" id="pdTable">
+              <!-- Строки генерируются в script.js -->
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================= -->
+      <!-- СЕКЦИЯ 3: Изменение реквизитов    -->
+      <!-- ================================= -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-rekviz">
+          <span class="accordion-toggle__icon"><i class="fas fa-id-card"></i></span>
+          <span class="accordion-toggle__label">Жалоба на информационно-рекламную рассылку</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-rekviz">
+
+          <!-- Реквизит 1 -->
+          <div class="form-card">
+            <div class="form-card__label">Если клиент не имеет отношения к ЛС.</div>
+            <div class="inline-form-row">
+              <label class="inline-label">Телефон</label>
+              <input class="input-md" type="text" id="phone_1">
+              <label class="inline-label">E-mail</label>
+              <input class="input-md" type="text" id="mail_1">
+              <label class="inline-label">ЛС</label>
+              <input class="input-md" type="text" id="ls_1">
+              <label class="inline-label">Дата</label>
+              <input type="date" class="input-date" id="date_1">
+            </div>
+            <button class="btn btn-primary mt-12" id="btnRekviz1">
+              <i class="fas fa-copy"></i> Скопировать
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================================= -->
+      <!-- СЕКЦИЯ 4: Жалоба на отключение ЭЭ -->
+      <!-- ================================= -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-complaint">
+          <span class="accordion-toggle__icon"><i class="fas fa-plug-circle-xmark"></i></span>
+          <span class="accordion-toggle__label">Жалоба на отключение ЭЭ</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-complaint">
+          <div class="form-card">
+
+            <!-- Тип жалобы -->
+            <div class="field-group">
+              <label class="field-label">Тип жалобы:</label>
+              <div class="btn-toggle-group">
+                <button class="btn-toggle" id="complaintTypeErr" data-type="Ошибочное отключение">Ошибочное отключение</button>
+                <button class="btn-toggle" id="complaintTypeDelay" data-type="Нарушен срок возобновления">Нарушен срок возобновления</button>
+              </div>
+            </div>
+
+            <!-- ===== ВЕТКА: ОШИБОЧНОЕ ОТКЛЮЧЕНИЕ ===== -->
+            <div id="errBranchWrap" style="display:none">
+              <div class="field-group">
+                <label class="field-label">Тип объекта:</label>
+                <div class="btn-toggle-group">
+                  <button class="btn-toggle" data-err-obj="МКД">МКД</button>
+                  <button class="btn-toggle" data-err-obj="ИЖД">ИЖД</button>
+                </div>
+              </div>
+
+              <!-- МКД-блок -->
+              <div id="errMkdBlock" style="display:none">
+                <div class="info-alert info-alert--warning">
+                  <i class="fas fa-triangle-exclamation"></i>
+                  По данному вопросу обращаться строго на линию <strong>Консультант!</strong>
+                </div>
+              </div>
+
+              <!-- ИЖД-блок -->
+              <div id="errIjdBlock" style="display:none">
+                <div class="info-alert info-alert--info">
+                  <i class="fas fa-circle-info"></i>
+                  Выбери услугу <strong>«Консультация по восстановлению энергоснабжения»</strong> и «Переназначить» без выбора сотрудника:<br>
+                  <span class="hint-row"><i class="fas fa-location-dot"></i> Москва / Новая Москва: <strong>ООК</strong></span>
+                  <span class="hint-row"><i class="fas fa-location-dot"></i> Московская область: <strong>ТУ ЕИРЦ</strong></span>
+                </div>
+
+                <div class="field-group mt-12">
+                  <label class="field-label" for="ijdPhone">
+                    Номер телефона <span class="required-mark">*</span>
+                  </label>
+                  <input type="text" class="input-lg" id="ijdPhone"
+                         placeholder="Запросить у клиента, не копировать!">
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="ijdDate">
+                    Дата отключения <span class="required-mark">*</span>
+                  </label>
+                  <input type="date" class="input-date" id="ijdDate">
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="ijdHouse">Предполагаемый номер дома <span class="field-optional">(необязательно)</span></label>
+                  <input type="text" class="input-lg" id="ijdHouse" placeholder="Например: 12А">
+                </div>
+
+                <div class="field-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="ijdInRegistry" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    Адрес есть в реестре на отключение
+                  </label>
+                </div>
+
+                <button class="btn btn-primary mt-12" id="btnCopyIjd">
+                  <i class="fas fa-copy"></i> Скопировать
+                </button>
+              </div>
+            </div>
+
+            <!-- ===== ВЕТКА: НАРУШЕН СРОК ===== -->
+            <div id="delayBranchWrap" style="display:none">
+
+              <!-- Тип подтверждения -->
+              <div class="field-group" id="confirmationTypeGroup" style="display:none">
+                <label class="field-label">Подтверждение:</label>
+                <div class="btn-toggle-group">
+                  <button class="btn-toggle" data-confirm="Подтвердил через почту">Подтвердил через почту</button>
+                  <button class="btn-toggle" data-confirm="Подтверждено в КО">Подтверждено в КО</button>
+                </div>
+              </div>
+
+              <!-- Дата оплаты -->
+              <div class="field-group" id="complaintDateGroup" style="display:none">
+                <label class="field-label" for="complaintDate">Дата оплаты:</label>
+                <input type="date" class="input-date" id="complaintDate">
+              </div>
+
+              <!-- Телефон -->
+              <div class="field-group">
+                <label class="field-label" for="complaintPhone">Телефон для связи:</label>
+                <input type="text" class="input-lg" id="complaintPhone" placeholder="Номер телефона">
+              </div>
+
+              <!-- Поля только для ветки "Подтвердил через почту" -->
+              <div id="mailConfirmGroup" style="display:none">
+                <div class="field-group">
+                  <label class="field-label" for="pfzdrbInput">Номер заявки (номер договора):</label>
+                  <input type="text" class="input-lg" id="pfzdrbInput" placeholder="Номер заявки">
+                </div>
+                <div class="field-group" id="paymentDateGroup">
+                  <label class="field-label" for="paymentDate">Дата отправки чека:</label>
+                  <input type="date" class="input-date" id="paymentDate">
+                </div>
+              </div>
+
+              <button class="btn btn-primary mt-12" id="btnCopyComplaint">
+                <i class="fas fa-copy"></i> Скопировать
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================= -->
+      <!-- СЕКЦИЯ 5: Жалоба на сроки заключения договора -->
+      <!-- ============================================= -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-contract">
+          <span class="accordion-toggle__icon"><i class="fas fa-file-contract"></i></span>
+          <span class="accordion-toggle__label">Жалоба на сроки заключения договора</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-contract">
+          <div class="form-card">
+
+            <div class="field-group">
+              <label class="field-label">Тип подачи:</label>
+              <div class="btn-toggle-group">
+                <button class="btn-toggle" data-contract="Подача в ЛКК">Подача в ЛКК</button>
+                <button class="btn-toggle" data-contract="Подача в КО">Подача в КО</button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="contractDate">Дата обращения:</label>
+              <input type="date" class="input-date" id="contractDate">
+            </div>
+
+            <div class="field-group" id="requestNumberGroup" style="display:none">
+              <label class="field-label" for="requestNumber">Номер заявки:</label>
+              <input type="text" class="input-lg" id="requestNumber" placeholder="Номер заявки" maxlength="20">
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="clientNumber">Номер клиента:</label>
+              <input type="text" class="input-lg" id="clientNumber" placeholder="Номер клиента" maxlength="15">
+            </div>
+
+            <div class="field-group" id="officeAddressGroup" style="display:none">
+              <label class="field-label" for="officeAddress">Адрес/название КО:</label>
+              <input type="text" class="input-lg" id="officeAddress" placeholder="Адрес или название КО">
+            </div>
+
+            <button class="btn btn-primary mt-12" id="btnCopyContract">
+              <i class="fas fa-copy"></i> Скопировать
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- СЕКЦИЯ 6: Оплата по БК    -->
+      <!-- ========================= -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-bk">
+          <span class="accordion-toggle__icon"><i class="fas fa-credit-card"></i></span>
+          <span class="accordion-toggle__label">Оплата по БК</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-bk">
+          <div class="form-card">
+            <div class="field-group">
+              <label class="field-label" for="bkName">ФИО (на русском):</label>
+              <input type="text" class="input-lg" id="bkName" placeholder="Введите ФИО">
+            </div>
+            <div class="field-group" id="bkLatinGroup" style="display:none">
+              <label class="field-label">ФИО (на латинице):</label>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="result-text" id="bkLatinName"></span>
+                <button class="btn btn-outline btn-sm" id="btnCopyBKName">
+                  <i class="fas fa-copy"></i> Скопировать
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================ -->
+      <!-- СЕКЦИЯ 7: Письмо на РГ о статусе консультации    -->
+      <!-- ================================================ -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-consultation">
+          <span class="accordion-toggle__icon"><i class="fas fa-paper-plane"></i></span>
+          <span class="accordion-toggle__label">Письмо на РГ о статусе консультации</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-consultation">
+          <div class="form-card">
+
+            <div class="field-group">
+              <label class="field-label">Причина статуса (можно выбрать несколько):</label>
+              <div class="reason-checklist" id="reasonChecklist">
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Перезвон клиенту"><span class="checkbox-custom"></span>Перезвон клиенту</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Сброс звонка, просто закрыть обращение"><span class="checkbox-custom"></span>Сброс звонка, просто закрыть обращение</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Заявка на коммерческую услугу"><span class="checkbox-custom"></span>Заявка на коммерческую услугу</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Заявка на восстановление ЭЭ"><span class="checkbox-custom"></span>Заявка на восстановление ЭЭ</label>
+                <label class="checkbox-label reason-cb-correction"><input type="checkbox" class="checkbox-input reason-cb" value="Корректировка показаний ПУ" id="reasonCbCorrection"><span class="checkbox-custom"></span>Корректировка показаний ПУ</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Жалоба №950"><span class="checkbox-custom"></span>Жалоба №950</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Уведомление о неисправности ПУ"><span class="checkbox-custom"></span>Уведомление о неисправности ПУ</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Перерасчёт предыдущих периодов"><span class="checkbox-custom"></span>Перерасчёт предыдущих периодов</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Жалоба на некорректные показания ПУ"><span class="checkbox-custom"></span>Жалоба на некорректные показания ПУ</label>
+              </div>
+            </div>
+
+            <!-- Показывается только при выборе корректировки -->
+            <div class="field-group" id="correctionPeriodGroup" style="display:none">
+              <label class="field-label">
+                Корректировка за последние <strong id="monthsValue">1</strong> мес.
+              </label>
+              <input type="range" class="range-input" id="monthsRange" min="1" max="36" value="1">
+              <div class="range-labels">
+                <span>1</span>
+                <span>36</span>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="lsInput">Лицевой счёт:</label>
+              <input type="text" class="input-lg" id="lsInput" placeholder="10 цифр: 1234567890 или 12345-678-90" maxlength="13">
+              <span class="field-hint">Ровно 10 цифр: подряд или в формате XXXXX-XXX-XX. Буквы и другие символы запрещены.</span>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="operatorInput">Оператор (ФИО):</label>
+              <input type="text" class="input-lg" id="operatorInput" placeholder="Введите ваше ФИО">
+            </div>
+
+            <div class="btn-row">
+              <button class="btn btn-primary" id="btnCopyConsultation">
+                <i class="fas fa-copy"></i> Скопировать
+              </button>
+              <button class="btn btn-ghost" id="btnResetConsultation">
+                <i class="fas fa-rotate-left"></i> Сбросить
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================= -->
+      <!-- СЕКЦИЯ 8: Некорректные переводы              -->
+      <!-- ============================================= -->
+      <section class="accordion-section">
+        <button class="accordion-toggle" data-target="section-transfers">
+          <span class="accordion-toggle__icon"><i class="fas fa-phone-slash"></i></span>
+          <span class="accordion-toggle__label">Некорректные переводы</span>
+          <i class="fas fa-chevron-down accordion-toggle__arrow"></i>
+        </button>
+        <div class="accordion-body" id="section-transfers">
+          <div class="form-card">
+
+            <div class="transfers-form">
+              <div class="inline-form-row" style="gap:16px;flex-wrap:wrap;">
+
+                <div class="field-group" style="min-width:130px;flex:0 0 auto;">
+                  <label class="field-label">Время <span class="field-optional">(необязательно)</span></label>
+                  <input type="text" class="input-md" id="trTime" placeholder="00:00" maxlength="5">
+                </div>
+
+                <div class="field-group" style="min-width:200px;flex:1;">
+                  <label class="field-label">ФИО оператора <span class="required-mark">*</span></label>
+                  <input type="text" class="input-lg" id="trName" placeholder="Фамилия Имя Отчество">
+                </div>
+
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Куда перевели <span class="required-mark">*</span></label>
+                <div class="btn-toggle-group" id="trDestGroup">
+                  <button class="btn-toggle" data-dest="ТП ЛКК">ТП ЛКК</button>
+                  <button class="btn-toggle" data-dest="2 линия">2 линия</button>
+                  <button class="btn-toggle" data-dest="ВВ">ВВ</button>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Вопрос клиента <span class="required-mark">*</span></label>
+                <input type="text" class="input-lg" id="trQuestion" placeholder="Опишите вопрос клиента" style="width:100%;max-width:480px;">
+              </div>
+
+              <div class="inline-form-row" style="gap:16px;flex-wrap:wrap;">
+                <div class="field-group" style="flex:1;min-width:180px;">
+                  <label class="field-label">Телефон клиента <span class="required-mark">*</span></label>
+                  <input type="text" class="input-lg" id="trPhone" placeholder="Номер телефона">
+                </div>
+                <div class="field-group" style="flex:1;min-width:180px;">
+                  <label class="field-label">ЛС клиента <span class="field-optional">(необязательно)</span></label>
+                  <input type="text" class="input-lg" id="trLs" placeholder="XXXXX-XXX-XX" maxlength="13">
+                </div>
+              </div>
+
+              <div class="btn-row" style="flex-wrap:wrap;align-items:center;">
+                <button class="btn btn-primary" id="btnCopyTransfer">
+                  <i class="fas fa-copy"></i> Скопировать
+                </button>
+                <button class="btn btn-add-record" id="btnAddTransfer">
+                  <i class="fas fa-plus"></i> Внести запись
+                </button>
+                <button class="btn btn-success" id="btnExportTransfer">
+                  <i class="fas fa-file-excel"></i> Выгрузить отчёт
+                </button>
+                <button class="btn btn-ghost" id="btnClearTransferData">
+                  <i class="fas fa-trash"></i> Очистить данные
+                </button>
+                <div class="transfer-counter" id="transferCounter" style="display:none">
+                  <i class="fas fa-database"></i>
+                  <span>В журнале: <strong id="transferCount">0</strong></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main><!-- /app-main -->
+
+    <!-- ========================= -->
+    <!-- Письма и кнопки писем -->
+    <!-- ========================= -->
+    <section class="email-panel">
+      <div class="email-panel__actions">
+        <button class="email-btn btn-mkd" data-mail="MKD">
+          <i class="fas fa-building"></i>
+          <span>Восстановление МКД</span>
+        </button>
+        <button class="email-btn btn-igd-asumb" data-mail="IGD_asumb">
+          <i class="fas fa-home"></i>
+          <span>ИЖД АСУМБ</span>
+        </button>
+        <button class="email-btn btn-igd" data-mail="IGD">
+          <i class="fas fa-house-chimney"></i>
+          <span>Восстановление ИЖД</span>
+        </button>
+        <button class="email-btn btn-pd" data-mail="PD">
+          <i class="fas fa-receipt"></i>
+          <span>Квитанция</span>
+        </button>
+        <button class="email-btn btn-akt" data-mail="Akt">
+          <i class="fas fa-handshake"></i>
+          <span>Акт сверки</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="app-footer">
+      <a href="https://forms.yandex.ru/u/68babee3f47e73af4f27d400/" target="_blank" class="footer-link">
+        <i class="fas fa-link"></i> Обратная связь | Подать обращение
+      </a>
+      <button class="footer-link" id="btnShare">
+        <i class="fas fa-share-alt"></i> Поделиться
+      </button>
+      <div class="changelog-wrap">
+        <button class="footer-link changelog-trigger">
+          <i class="fas fa-info-circle"></i> Change Log
+        </button>
+        <div class="changelog-popup">
+         🆕Изменения в новой версии🆕
+<p>1. Правки и обновления с актуальной базой. Обновлены алгоритмы жалоб на ошибочное отключение и работы с ПД.</p>
+<p>2. Добавлен блок «некорректные переводы» для оптимизации процесса. Также можно писать в чате или внести запись и отправить файл Excel в чат.</p>
+<p>3. Добавлено письмо РГ. Теперь, если вы ставите статус «консультация», обязательно нужно уведомить РГ, указав причину и ЛС. В противном случае, статус консультации оплачиваться не будет.</p>
+<p>4. Рефакторинг кода. Обновлен и слегка освежен дизайн сайта, обновлена сетка для оптимизации.</p>        </div>
+      </div>
+    </footer>
+
+  </div><!-- /#main-content -->
+
+  <!-- Уведомление (создаётся через JS) -->
+
+  <script src="script.js"></script>
+
+  <!-- Yandex.Metrika -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=103923903','ym');
+    ym(103923903,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",accurateTrackBounce:true,trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/103923903" style="position:absolute;left:-9999px;" alt=""></div></noscript>
+
+</body>
+</html>
+
