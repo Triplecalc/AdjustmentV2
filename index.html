@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Шаблоны МЭС</title>
-  <link rel="icon" href="https://www.mosenergosbyt.ru/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="512x512" href="favicon.ico">
+  <meta name="msapplication-TileImage" content="favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -494,8 +497,8 @@
 
             <div class="field-group">
               <label class="field-label" for="lsInput">Лицевой счёт:</label>
-              <input type="text" class="input-lg" id="lsInput" placeholder="10 цифр: 1234567890 или 12345-678-90" maxlength="13">
-              <span class="field-hint">Ровно 10 цифр: подряд или в формате XXXXX-XXX-XX. Буквы и другие символы запрещены.</span>
+              <input type="text" class="input-lg" id="lsInput" placeholder="Скопируйте ЛС" maxlength="13">
+              <span class="field-hint">Принимаются форматы ХХХХХХХХ, ХХХХХХХХХХ ИЛИ ХХХХХ-ХХХ-ХХ.</span>
             </div>
 
             <div class="field-group">
@@ -531,7 +534,12 @@
             <div class="transfers-form">
               <div class="inline-form-row" style="gap:16px;flex-wrap:wrap;">
 
-                <div class="field-group" style="min-width:130px;flex:0 0 auto;">
+                <div class="field-group" style="min-width:110px;flex:0 0 auto;">
+                  <label class="field-label">Дата <span class="field-optional">(необязательно)</span></label>
+                  <input type="text" class="input-md" id="trDate" placeholder="ДД.ММ.ГГГГ" maxlength="10">
+                </div>
+
+                <div class="field-group" style="min-width:110px;flex:0 0 auto;">
                   <label class="field-label">Время <span class="field-optional">(необязательно)</span></label>
                   <input type="text" class="input-md" id="trTime" placeholder="00:00" maxlength="5">
                 </div>
@@ -635,11 +643,12 @@
           <i class="fas fa-info-circle"></i> Change Log
         </button>
         <div class="changelog-popup">
-         🆕Изменения в новой версии🆕
-<p>1. Правки и обновления с актуальной базой. Обновлены алгоритмы жалоб на ошибочное отключение и работы с ПД.</p>
-<p>2. Добавлен блок «некорректные переводы» для оптимизации процесса. Также можно писать в чате или внести запись и отправить файл Excel в чат.</p>
-<p>3. Добавлено письмо РГ. Теперь, если вы ставите статус «консультация», обязательно нужно уведомить РГ, указав причину и ЛС. В противном случае, статус консультации оплачиваться не будет.</p>
-<p>4. Рефакторинг кода. Обновлен и слегка освежен дизайн сайта, обновлена сетка для оптимизации.</p>        </div>
+          <strong>🆕Изменения в новой версии🆕</strong>
+          <p>1. Правки и обновления с актуальной базой. Обновлены алгоритмы жалобы на ошибочное отключение и работы с ПД.</p>
+          <p>2. Добавлен в качестве теста "Колокольчик". Возможно, в будущем функция будет доработана (или нет 🙂).</p>
+          <p>3. Добавление письма на РГ. Теперь, если вы ставите статус консультации, обязательно нужно уведомить РГ с причиной и ЛС</p>
+          <p>4. Рефакторинг кода. Обновил и слегка освежил дизайн сайта.</p>
+        </div>
       </div>
     </footer>
 
