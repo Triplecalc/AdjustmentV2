@@ -4,10 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Шаблоны МЭС</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="512x512" href="favicon.ico">
-  <link rel="apple-touch-icon" sizes="512x512" href="favicon.ico">
-  <meta name="msapplication-TileImage" content="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon_32.ico" sizes="32x32">
+  <link rel="icon" type="image/x-icon" href="favicon_64.ico" sizes="64x64">
+  <link rel="icon" type="image/x-icon" href="favicon_128.ico" sizes="128x128">
+  <link rel="icon" type="image/x-icon" href="favicon_256.ico" sizes="256x256">
+  <link rel="icon" type="image/x-icon" href="favicon_512.ico" sizes="512x512">
+  <link rel="apple-touch-icon" sizes="512x512" href="favicon_512.ico">
+  <meta name="msapplication-TileImage" content="favicon_256.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -497,8 +500,8 @@
 
             <div class="field-group">
               <label class="field-label" for="lsInput">Лицевой счёт:</label>
-              <input type="text" class="input-lg" id="lsInput" placeholder="Скопируйте ЛС" maxlength="13">
-              <span class="field-hint">Принимаются форматы ХХХХХХХХ, ХХХХХХХХХХ ИЛИ ХХХХХ-ХХХ-ХХ.</span>
+              <input type="text" class="input-lg" id="lsInput" placeholder="10 цифр: 1234567890 или 12345-678-90" maxlength="13">
+              <span class="field-hint">Ровно 10 цифр: подряд или в формате XXXXX-XXX-XX. Буквы и другие символы запрещены.</span>
             </div>
 
             <div class="field-group">
@@ -554,9 +557,9 @@
               <div class="field-group">
                 <label class="field-label">Куда перевели <span class="required-mark">*</span></label>
                 <div class="btn-toggle-group" id="trDestGroup">
-                  <button class="btn-toggle" data-dest="На ТП ЛКК">На ТП ЛКК</button>
-                  <button class="btn-toggle" data-dest="На 2 линию">На 2 линию</button>
-                  <button class="btn-toggle" data-dest="На восстановление">На восстановление</button>
+                  <button class="btn-toggle" data-dest="ТП ЛКК">ТП ЛКК</button>
+                  <button class="btn-toggle" data-dest="2 линия">2 линия</button>
+                  <button class="btn-toggle" data-dest="ВВ">ВВ</button>
                 </div>
               </div>
 
