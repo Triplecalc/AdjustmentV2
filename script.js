@@ -1,5 +1,5 @@
 /* ============================================================
-   script.js — Шаблоны МЭС v2.2
+   script.js — Шаблоны МЭС v2.1
    ============================================================ */
 
 /* ===================================================
@@ -515,7 +515,13 @@ function transliterateBKName() {
    =================================================== */
 
 function validateLS(ls) {
-  return /^\d{10}$/.test(ls) || /^\d{5}-\d{3}-\d{2}$/.test(ls);
+  // 8 цифр подряд
+  if (/^\d{8}$/.test(ls)) return true;
+  // 10 цифр подряд
+  if (/^\d{10}$/.test(ls)) return true;
+  // Формат XXXXX-XXX-XX (12 символов, 10 цифр + 2 тире)
+  if (/^\d{5}-\d{3}-\d{2}$/.test(ls)) return true;
+  return false;
 }
 
 function initConsultation() {
@@ -545,11 +551,11 @@ function initConsultation() {
     if (e.ctrlKey || e.metaKey) return;
     if (!/[\d-]/.test(e.key) && !nav.includes(e.key)) e.preventDefault();
   });
-  lsInput.addEventListener('input',  () => { lsInput.value = lsInput.value.replace(/[^\d-]/g, '').slice(0, 13); });
+  lsInput.addEventListener('input',  () => { lsInput.value = lsInput.value.replace(/[^\d-]/g, '').slice(0, 12); });
   lsInput.addEventListener('paste',  (e) => {
     e.preventDefault();
     const raw = (e.clipboardData || window.clipboardData).getData('text');
-    lsInput.value = raw.replace(/[^\d-]/g, '').slice(0, 13);
+    lsInput.value = raw.replace(/[^\d-]/g, '').slice(0, 12);
   });
 
   document.getElementById('btnCopyConsultation').addEventListener('click', copyConsultation);
@@ -564,7 +570,7 @@ function copyConsultation() {
 
   if (checkedBoxes.length === 0) { showToast('Выберите хотя бы одну причину', 'error'); return; }
   if (!ls)                        { showToast('Введите ЛС', 'error'); return; }
-  if (!validateLS(ls))            { showToast('ЛС должен содержать ровно 10 цифр: 1234567890 или 12345-678-90', 'error'); return; }
+  if (!validateLS(ls))            { showToast('ЛС: 8 цифр, 10 цифр или формат 12345-678-90', 'error'); return; }
   if (!operator)                  { showToast('Введите ФИО оператора', 'error'); return; }
 
   const reasons = checkedBoxes.map(cb => cb.value).join(', ');
@@ -692,6 +698,11 @@ function initTransfers() {
     });
   });
 
+  /* Маска даты */
+  const trDate = document.getElementById('trDate');
+  trDate.addEventListener('input', () => { formatDate(trDate); });
+  trDate.addEventListener('keydown', (e) => dateInputFilter(trDate, e));
+
   /* Маска времени */
   const trTime = document.getElementById('trTime');
   trTime.addEventListener('input', () => {
@@ -729,18 +740,21 @@ function collectTransferData() {
   const phone    = document.getElementById('trPhone').value.trim();
   const ls       = document.getElementById('trLs').value.trim();
   const timeRaw  = document.getElementById('trTime').value.trim();
+  const dateRaw  = document.getElementById('trDate').value.trim();
   const time     = timeRaw || getCurrentTime();
+  const date     = dateRaw || getCurrentDate();
 
   if (!name)                 { showToast('Введите ФИО оператора', 'error'); return null; }
   if (!selectedTransferDest) { showToast('Выберите, куда перевели', 'error'); return null; }
   if (!question)             { showToast('Введите вопрос клиента', 'error'); return null; }
   if (!phone)                { showToast('Введите телефон клиента', 'error'); return null; }
 
-  return { name, question, phone, ls, time };
+  return { name, question, phone, ls, time, date };
 }
 
 /* Очищает поля формы после записи (кроме ФИО) */
 function clearTransferFields() {
+  document.getElementById('trDate').value     = '';
   document.getElementById('trTime').value     = '';
   document.getElementById('trQuestion').value = '';
   document.getElementById('trPhone').value    = '';
@@ -754,18 +768,17 @@ function copyTransfer() {
   const data = collectTransferData();
   if (!data) return;
 
-  const { name, question, phone, ls, time } = data;
+  const { name, question, phone, ls, time, date } = data;
 
   let tx = `Некорректный перевод на линию ${selectedTransferDest} по вопросу: ${question}\nВремя: ${time}\nТелефон: ${phone}\nОператор: ${name}`;
   if (ls) tx += `\nЛС клиента: ${ls}`;
 
-  /* Формат для отчёта: куда перевели, вопрос[, ЛС: xxx] */
   const questionCell = ls
     ? `${selectedTransferDest}, ${question}, ЛС: ${ls}`
     : `${selectedTransferDest}, ${question}`;
 
   saveTransferRecord({
-    date:     getCurrentDate(),
+    date,
     time,
     name,
     dest:     selectedTransferDest,
@@ -784,7 +797,7 @@ function addTransferRecord() {
   const data = collectTransferData();
   if (!data) return;
 
-  const { name, question, phone, ls, time } = data;
+  const { name, question, phone, ls, time, date } = data;
 
   /* Формат для отчёта: куда перевели, вопрос[, ЛС: xxx] */
   const questionCell = ls
@@ -792,7 +805,7 @@ function addTransferRecord() {
     : `${selectedTransferDest}, ${question}`;
 
   saveTransferRecord({
-    date:     getCurrentDate(),
+    date,
     time,
     name,
     dest:     selectedTransferDest,
