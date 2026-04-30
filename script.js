@@ -617,6 +617,15 @@ const EMAIL_TOPICS = [
 ];
 
 function initEmailPanel() {
+  document.querySelectorAll('.topic-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const topic = EMAIL_TOPICS[parseInt(btn.dataset.index, 10)];
+      if (!topic) return;
+      copyToClipboard(topic, `Тема скопирована: ${topic}`);
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1200);
+    });
+  });
   document.querySelectorAll('.email-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.mail;
