@@ -475,6 +475,7 @@
               <label class="field-label">Причина статуса (можно выбрать несколько):</label>
               <div class="reason-checklist" id="reasonChecklist">
                 <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Перезвон клиенту"><span class="checkbox-custom"></span>Перезвон клиенту</label>
+                <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="МЭС НЕ абоненты"><span class="checkbox-custom"></span>МЭС НЕ абоненты</label>
                 <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Заявка на коммерческую услугу"><span class="checkbox-custom"></span>Заявка на коммерческую услугу</label>
                 <label class="checkbox-label"><input type="checkbox" class="checkbox-input reason-cb" value="Заявка на восстановление ЭЭ"><span class="checkbox-custom"></span>Заявка на восстановление ЭЭ</label>
                 <label class="checkbox-label reason-cb-correction"><input type="checkbox" class="checkbox-input reason-cb" value="Корректировка показаний ПУ" id="reasonCbCorrection"><span class="checkbox-custom"></span>Корректировка показаний ПУ</label>
@@ -604,10 +605,18 @@
 
     </main><!-- /app-main -->
 
-    <!-- ========================= -->
-    <!-- Письма и кнопки писем -->
+ <!-- ========================= -->
+    <!-- Темы ё и кнопки писем -->
     <!-- ========================= -->
     <section class="email-panel">
+      <div class="email-panel__topics">
+        <span class="email-panel__label">Тема письма:</span>
+        <button class="topic-btn" data-index="0">Восстановление электроэнергии</button>
+        <span class="divider">|</span>
+        <button class="topic-btn" data-index="1">Квитанция АО Мосэнергосбыт</button>
+        <span class="divider">|</span>
+        <button class="topic-btn" data-index="2">Акт сверки АО Мосэнергосбыт</button>
+      </div>
       <div class="email-panel__actions">
         <button class="email-btn btn-mkd" data-mail="MKD">
           <i class="fas fa-building"></i>
